@@ -6,6 +6,7 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\Json;
+use Vierbeuter\Craft\AssetBundle\ModuleFieldAsset;
 use yii\db\Schema;
 
 /**
@@ -342,15 +343,22 @@ abstract class ModuleField extends Field
     }
 
     /**
-     * Returns the classname for responsible asset bundle.
+     * Returns the classname for the responsible asset bundle.
      *
-     * The returned string corresponds a sub-class of `\craft\web\AssetBundle`.
+     * The returned string corresponds a sub-class of `\craft\web\AssetBundle`. By default this will be the
+     * `\Vierbeuter\Craft\AssetBundle\ModuleFieldAsset`.
+     *
+     * This method may be overridden by any sub-class in case of a custom asset bundle is gonna be used.
      *
      * @return string
      *
      * @see \craft\web\AssetBundle
+     * @see \Vierbeuter\Craft\AssetBundle\ModuleFieldAsset
      */
-    abstract protected function getAssetBundleClass(): string;
+    public function getAssetBundleClass(): string
+    {
+        return ModuleFieldAsset::class;
+    }
 
     /**
      * Returns the path to the field's settings template.
