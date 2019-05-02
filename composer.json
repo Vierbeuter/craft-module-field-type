@@ -2,5 +2,7 @@
     "name": "vierbeuter/craft-module-field-type",
     "type": "library",
     "license": "MIT",
-    "require": {}
+    "require": {
+      "php": "7.0"
+    }
 }
