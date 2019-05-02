@@ -1,0 +1,6 @@
+{
+    "name": "vierbeuter/craft-module-field-type",
+    "type": "library",
+    "license": "MIT",
+    "require": {}
+}
