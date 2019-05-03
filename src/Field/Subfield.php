@@ -92,4 +92,17 @@ class Subfield
     {
         $this->config = $config;
     }
+
+    /**
+     * Returns an array representation of this sub-field.
+     *
+     * @return array
+     */
+    public function toArray():array
+    {
+        return [
+            'type' =>  $this->getType(),
+            'config' => $this->getConfig(),
+        ];
+    }
 }

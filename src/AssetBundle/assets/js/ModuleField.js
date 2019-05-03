@@ -24,7 +24,8 @@
 
                 /* -- _this.options gives us access to the $jsonVars that our FieldType passed down to us */
 
-                //  TODO: get all field settings from _this.options!
+                //  TODO: get all field settings from _this.options.subfields!
+                console.log(_this.options.subfields);	//	DEBUG: remove me!
 
                 let hiddenField = $('#' + _this.options.namespace);
                 let textField = $('#' + _this.options.namespace + 'Text');

@@ -1,5 +1,6 @@
 {# @var craft \craft\web\twig\variables\CraftVariable #}
 {# @var field Vierbeuter\Craft\Field\ModuleField #}
+{# @var subfields Vierbeuter\Craft\Field\Subfield[] #}
 {# @var name string #}
 {# @var value JSON-string #}
 
@@ -16,7 +17,7 @@
 {# --> we can't just dynamically call macros in Twig #}
 {# --> that's why we dynamically include other templates here (where the macros will be called) #}
 {# --> see https://stackoverflow.com/a/55970814/3773017 for more details #}
-{% for subfield in field.getSubfields(name, value | json_decode) %}
+{% for subfield in subfields %}
     {% include field.getTemplateRootId() ~ '/subfields/' ~ subfield.getType() ~ '.twig' with {
         config: subfield.getConfig()
     } only %}

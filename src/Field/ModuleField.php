@@ -322,6 +322,9 @@ abstract class ModuleField extends Field
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
+        //  determine subfields
+        $subfields = $this->getSubfields($this->handle, Json::decode($value, false));
+
         $view = Craft::$app->getView();
 
         // Register our asset bundle
@@ -337,6 +340,9 @@ abstract class ModuleField extends Field
             'name' => $this->handle,
             'namespace' => $namespacedId,
             'prefix' => $view->namespaceInputId(''),
+            'subfields' => array_map(function (Subfield $subfield) {
+                return $subfield->toArray();
+            }, $subfields),
         ];
         $jsonVars = Json::encode($jsonVars);
         $view->registerJs("$('#{$namespacedId}-field').ModuleField(" . $jsonVars . ");");
@@ -350,6 +356,7 @@ abstract class ModuleField extends Field
                 'field' => $this,
                 'id' => $id,
                 'namespacedId' => $namespacedId,
+                'subfields' => $subfields,
             ]
         );
     }
