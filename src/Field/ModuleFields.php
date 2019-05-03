@@ -6,8 +6,6 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\services\Fields;
 use craft\web\View;
-use modules\gambit\fields\modules\DividerModuleField;
-use modules\gambit\fields\modules\QuoteModuleField;
 use yii\base\Event;
 
 /**
