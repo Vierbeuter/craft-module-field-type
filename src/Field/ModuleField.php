@@ -312,25 +312,27 @@ abstract class ModuleField extends Field
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
+        $view = Craft::$app->getView();
+
         // Register our asset bundle
-        Craft::$app->getView()->registerAssetBundle($this->getAssetBundleClass());
+        $view->registerAssetBundle($this->getAssetBundleClass());
 
         // Get our id and namespace
-        $id = Craft::$app->getView()->formatInputId($this->handle);
-        $namespacedId = Craft::$app->getView()->namespaceInputId($id);
+        $id = $view->formatInputId($this->handle);
+        $namespacedId = $view->namespaceInputId($id);
 
         // Variables to pass down to our field JavaScript to let it namespace properly
         $jsonVars = [
             'id' => $id,
             'name' => $this->handle,
             'namespace' => $namespacedId,
-            'prefix' => Craft::$app->getView()->namespaceInputId(''),
+            'prefix' => $view->namespaceInputId(''),
         ];
         $jsonVars = Json::encode($jsonVars);
-        Craft::$app->getView()->registerJs("$('#{$namespacedId}-field').ModuleField(" . $jsonVars . ");");
+        $view->registerJs("$('#{$namespacedId}-field').ModuleField(" . $jsonVars . ");");
 
         // Render the input template
-        return Craft::$app->getView()->renderTemplate(
+        return $view->renderTemplate(
             $this->getInputHtmlTemplate(),
             [
                 'name' => $this->handle,
