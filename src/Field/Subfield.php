@@ -35,7 +35,7 @@ class Subfield
     /**
      * @var string
      */
-    protected $field;
+    protected $type;
     /**
      * @var array
      */
@@ -44,33 +44,33 @@ class Subfield
     /**
      * Subfield constructor.
      *
-     * @param string $field
-     * @param array $config
+     * @param string $type one of the `Subfield::TYPE_…` constants
+     * @param array $config the config object to be passed to the Twig macro for rendering this field
      */
-    public function __construct(string $field, array $config = [])
+    public function __construct(string $type, array $config = [])
     {
-        $this->field = $field;
+        $this->type = $type;
         $this->config = $config;
     }
 
     /**
-     * Returns the field.
+     * Returns the type.
      *
      * @return string
      */
-    public function getField(): string
+    public function getType(): string
     {
-        return $this->field;
+        return $this->type;
     }
 
     /**
-     * Sets the field.
+     * Sets the type.
      *
-     * @param string $field
+     * @param string $type
      */
-    public function setField(string $field)
+    public function setType(string $type)
     {
-        $this->field = $field;
+        $this->type = $type;
     }
 
     /**

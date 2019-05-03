@@ -17,7 +17,7 @@
 {# --> that's why we dynamically include other templates here (where the macros will be called) #}
 {# --> see https://stackoverflow.com/a/55970814/3773017 for more details #}
 {% for subfield in field.getSubfields(name, value | json_decode) %}
-    {% include field.getTemplateRootId() ~ '/subfields/' ~ subfield.getField() ~ '.twig' with {
+    {% include field.getTemplateRootId() ~ '/subfields/' ~ subfield.getType() ~ '.twig' with {
         config: subfield.getConfig()
     } only %}
 {% endfor %}
