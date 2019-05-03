@@ -18,6 +18,16 @@ abstract class ModuleField extends Field
 {
 
     /**
+     * Returns all sub-field configurations for this module field.
+     *
+     * @param string $name
+     * @param \stdClass|null $value
+     *
+     * @return \Vierbeuter\Craft\Field\Subfield[]
+     */
+    abstract public function getSubfields(string $name, \stdClass $value = null): array;
+
+    /**
      * Returns the validation rules for attributes.
      *
      * Validation rules are used by [[validate()]] to check if attribute values are valid.
@@ -371,7 +381,7 @@ abstract class ModuleField extends Field
      */
     protected function getSettingsHtmlTemplate(): string
     {
-        return ModuleFields::TEMPLATE_ROOT_ID. '/ModuleField_settings.twig';
+        return $this->getTemplateRootId() . '/ModuleField_settings.twig';
     }
 
     /**
@@ -383,6 +393,19 @@ abstract class ModuleField extends Field
      */
     protected function getInputHtmlTemplate(): string
     {
-        return ModuleFields::TEMPLATE_ROOT_ID. '/ModuleField_input.twig';
+        return $this->getTemplateRootId() . '/ModuleField_input.twig';
+    }
+
+    /**
+     * Returns the templates' root ID.
+     *
+     * This method may be overridden by any sub-class in case of a root ID is gonna be used (e.g. the one of a Craft
+     * plugin or a Craft module).
+     *
+     * @return string
+     */
+    public function getTemplateRootId(): string
+    {
+        return ModuleFields::TEMPLATE_ROOT_ID;
     }
 }

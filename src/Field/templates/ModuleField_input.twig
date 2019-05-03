@@ -1,33 +1,23 @@
 {# @var craft \craft\web\twig\variables\CraftVariable #}
 {# @var field Vierbeuter\Craft\Field\ModuleField #}
+{# @var name string #}
+{# @var value JSON-string #}
 
-{% set valueDecoded = value | json_decode %}
-{% set text = valueDecoded.text is defined and valueDecoded.text is not empty ? valueDecoded.text : null %}
-{% set entry = valueDecoded.entry is defined and valueDecoded.entry is not empty ? valueDecoded.entry : null %}
+{# the actual module field value as hidden field #}
+{% include field.getTemplateRootId() ~ '/subfields/hidden.twig' with {
+    config: {
+        id: name,
+        name: name,
+        value: value,
+    }
+} only %}
 
-{% import "_includes/forms" as forms %}
-
-{{ forms.textField({
-    id: name ~ 'Text',
-    name: name ~ 'Text',
-    value: text,
-}) }}
-
-{{ forms.hidden({
-    id: name,
-    name: name,
-    value: value,
-}) }}
-
-{{ forms.elementSelectField({
-    label: 'Entry' | t,
-    id: name ~ 'Entry',
-    name: name ~ 'Entry',
-    value: entry,
-    elementType: 'craft\\elements\\Entry',
-    limit: 1,
-    criteria: {
-        section: 'sectionhandle',
-    },
-    elements: entry is not empty ? craft.entries().section('sectionhandle').id(entry) : null,
-}) }}
+{# all sub-fields as defined in the module field implementation #}
+{# --> we can't just dynamically call macros in Twig #}
+{# --> that's why we dynamically include other templates here (where the macros will be called) #}
+{# --> see https://stackoverflow.com/a/55970814/3773017 for more details #}
+{% for subfield in field.getSubfields(name, value | json_decode) %}
+    {% include field.getTemplateRootId() ~ '/subfields/' ~ subfield.getField() ~ '.twig' with {
+        config: subfield.getConfig()
+    } only %}
+{% endfor %}
