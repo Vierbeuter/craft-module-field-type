@@ -1,0 +1,16 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{# @var field Vierbeuter\Craft\Field\ModuleField #}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("Vierbeuter\\Craft\\AssetBundle\\ModuleFieldAsset") %}
+
+{#{{ forms.textField({#}
+{#    label: 'Some Attribute',#}
+{#    instructions: 'Enter some attribute here.',#}
+{#    id: 'someAttribute',#}
+{#    name: 'someAttribute',#}
+{#    value: field['someAttribute']#}
+{#}) }}#}
+
+<p>{{ 'no options available' | t('gambit') }}</p>

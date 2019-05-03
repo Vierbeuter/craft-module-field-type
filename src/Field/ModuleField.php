@@ -363,14 +363,24 @@ abstract class ModuleField extends Field
     /**
      * Returns the path to the field's settings template.
      *
+     * This method may be overridden by any sub-class in case of a custom template is gonna be used.
+     *
      * @return string
      */
-    abstract protected function getSettingsHtmlTemplate(): string;
+    protected function getSettingsHtmlTemplate(): string
+    {
+        return ModuleFields::TEMPLATE_ROOT_ID. '/ModuleField_settings.twig';
+    }
 
     /**
      * Returns the path to the field's input template.
      *
+     * This method may be overridden by any sub-class in case of a custom template is gonna be used.
+     *
      * @return string
      */
-    abstract protected function getInputHtmlTemplate(): string;
+    protected function getInputHtmlTemplate(): string
+    {
+        return ModuleFields::TEMPLATE_ROOT_ID. '/ModuleField_input.twig';
+    }
 }

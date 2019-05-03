@@ -1,0 +1,33 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{# @var field Vierbeuter\Craft\Field\ModuleField #}
+
+{% set valueDecoded = value | json_decode %}
+{% set text = valueDecoded.text is defined and valueDecoded.text is not empty ? valueDecoded.text : null %}
+{% set entry = valueDecoded.entry is defined and valueDecoded.entry is not empty ? valueDecoded.entry : null %}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    id: name ~ 'Text',
+    name: name ~ 'Text',
+    value: text,
+}) }}
+
+{{ forms.hidden({
+    id: name,
+    name: name,
+    value: value,
+}) }}
+
+{{ forms.elementSelectField({
+    label: 'Entry' | t,
+    id: name ~ 'Entry',
+    name: name ~ 'Entry',
+    value: entry,
+    elementType: 'craft\\elements\\Entry',
+    limit: 1,
+    criteria: {
+        section: 'sectionhandle',
+    },
+    elements: entry is not empty ? craft.entries().section('sectionhandle').id(entry) : null,
+}) }}
