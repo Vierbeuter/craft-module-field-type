@@ -62,10 +62,15 @@
 
                     //  init field data with NULL
                     if (_this.options.init) {
+                        //  FIXME: some field types require special init values
+                        //  --> such as selectField where either the very first option or the one selected by default should be used instead of NULL
+                        //  --> or an elementSelectField's init value should rather be an empty array than NULL
+                        //  --> check also initial/default values in config objects passed to Craft's form field macros
                         updateHidden(subfieldData.key, null);
                     }
 
                     let subfield = $('#' + subfieldData.id);
+                    let subfieldContainer = $('#' + subfieldData.id + '-field');
 
                     //  bind change events to the subfields (respectively to their actual inputs)
                     switch (subfieldData.type) {
@@ -76,8 +81,10 @@
                             break;
 
                         case 'checkboxField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            //  on de-/selected checkbox
+                            subfield.change(function (event) {
+                                updateHidden(subfieldData.key, subfield.is(':checked'));
+                            });
                             break;
 
                         case 'checkboxGroupField':
@@ -91,8 +98,19 @@
                             break;
 
                         case 'colorField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            let colorTextFields = subfieldContainer.find('input[type=text]');
+                            if (colorTextFields.length) {
+                                let colorTextField = $(colorTextFields.get(0));
+
+                                //  on changed color by using the color-picker
+                                subfieldContainer.find('input').change(function (event) {
+                                    updateHidden(subfieldData.key, colorTextField.val());
+                                });
+                                //	on anything typed into the color field's text input
+                                colorTextField.keyup(function (event) {
+                                    updateHidden(subfieldData.key, colorTextField.val());
+                                });
+                            }
                             break;
 
                         case 'dateField':
@@ -111,16 +129,27 @@
                             break;
 
                         case 'elementSelectField':
+                            let onEntryChangeUpdateHidden = function (event, add) {
+                                let entryHiddenFields = subfield.find('input[type=hidden]');
+                                let entries = [];
+
+                                $(entryHiddenFields).each(function (index) {
+                                    let entryId = parseInt($(this).val());
+                                    if (add || parseInt(event.target.dataset.id) !== entryId) {
+                                        entries.push(entryId);
+                                    }
+                                });
+                                updateHidden(subfieldData.key, entries);
+                            };
+
                             //	on changed entry selection
                             //  FIXME: mutation events are deprecated --> use MutationObservers instead!
                             subfield.on('DOMNodeInserted', function (event) {
-                                let entryHiddenField = subfield.find('input[type=hidden]');
-                                updateHidden(
-                                    subfieldData.key,
-                                    entryHiddenField.length ? $(entryHiddenField.get(0)).val() : ''
-                                );
+                                onEntryChangeUpdateHidden(event, true);
                             });
-                            //  TODO: also updateHidden() on removed elements
+                            subfield.on('DOMNodeRemoved', function (event) {
+                                onEntryChangeUpdateHidden(event, false);
+                            });
                             break;
 
                         case 'fileField':
@@ -129,13 +158,21 @@
                             break;
 
                         case 'lightswitchField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            //  on switched lightswitch
+                            subfield.on('change', function (event) {
+                                let entryHiddenField = subfield.find('input[type=hidden]');
+                                updateHidden(
+                                    subfieldData.key,
+                                    entryHiddenField.length ? $(entryHiddenField.get(0)).val().length > 0 : false
+                                );
+                            });
                             break;
 
                         case 'multiselectField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            //	on anything typed into the textfield
+                            subfield.change(function (event) {
+                                updateHidden(subfieldData.key, subfield.val());
+                            });
                             break;
 
                         case 'passwordField':
@@ -151,8 +188,10 @@
                             break;
 
                         case 'selectField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            //	on anything typed into the textfield
+                            subfield.change(function (event) {
+                                updateHidden(subfieldData.key, subfield.val());
+                            });
                             break;
 
                         case 'textareaField':
