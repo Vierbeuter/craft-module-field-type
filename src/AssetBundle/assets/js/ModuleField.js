@@ -139,7 +139,14 @@
                                         entries.push(entryId);
                                     }
                                 });
-                                updateHidden(subfieldData.key, entries);
+
+                                //  if element selection is limited to 1 entry only
+                                if ('limit' in subfieldData.config && subfieldData.config.limit === 1) {
+                                    //  either single entry or NULL
+                                    updateHidden(subfieldData.key, entries.length ? entries.pop() : null);
+                                } else {
+                                    updateHidden(subfieldData.key, entries);
+                                }
                             };
 
                             //	on changed entry selection
