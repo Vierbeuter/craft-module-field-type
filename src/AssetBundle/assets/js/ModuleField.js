@@ -129,33 +129,33 @@
                             break;
 
                         case 'elementSelectField':
-                            let onEntryChangeUpdateHidden = function (event, add) {
-                                let entryHiddenFields = subfield.find('input[type=hidden]');
-                                let entries = [];
+                            let onElementChangeUpdateHidden = function (event, add) {
+                                let elementHiddenFields = subfield.find('input[type=hidden]');
+                                let elements = [];
 
-                                $(entryHiddenFields).each(function (index) {
-                                    let entryId = parseInt($(this).val());
-                                    if (add || parseInt(event.target.dataset.id) !== entryId) {
-                                        entries.push(entryId);
+                                $(elementHiddenFields).each(function (index) {
+                                    let elementId = parseInt($(this).val());
+                                    if (add || parseInt(event.target.dataset.id) !== elementId) {
+                                        elements.push(elementId);
                                     }
                                 });
 
-                                //  if element selection is limited to 1 entry only
+                                //  if element selection is limited to 1 element only
                                 if ('limit' in subfieldData.config && subfieldData.config.limit === 1) {
-                                    //  either single entry or NULL
-                                    updateHidden(subfieldData.key, entries.length ? entries.pop() : null);
+                                    //  either single element or NULL
+                                    updateHidden(subfieldData.key, elements.length ? elements.pop() : null);
                                 } else {
-                                    updateHidden(subfieldData.key, entries);
+                                    updateHidden(subfieldData.key, elements);
                                 }
                             };
 
-                            //	on changed entry selection
+                            //	on changed element selection
                             //  FIXME: mutation events are deprecated --> use MutationObservers instead!
                             subfield.on('DOMNodeInserted', function (event) {
-                                onEntryChangeUpdateHidden(event, true);
+                                onElementChangeUpdateHidden(event, true);
                             });
                             subfield.on('DOMNodeRemoved', function (event) {
-                                onEntryChangeUpdateHidden(event, false);
+                                onElementChangeUpdateHidden(event, false);
                             });
                             break;
 
@@ -167,10 +167,10 @@
                         case 'lightswitchField':
                             //  on switched lightswitch
                             subfield.on('change', function (event) {
-                                let entryHiddenField = subfield.find('input[type=hidden]');
+                                let checkboxHiddenField = subfield.find('input[type=hidden]');
                                 updateHidden(
                                     subfieldData.key,
-                                    entryHiddenField.length ? $(entryHiddenField.get(0)).val().length > 0 : false
+                                    checkboxHiddenField.length ? $(checkboxHiddenField.get(0)).val().length > 0 : false
                                 );
                             });
                             break;
