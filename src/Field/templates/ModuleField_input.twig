@@ -19,6 +19,8 @@
 {# --> see https://stackoverflow.com/a/55970814/3773017 for more details #}
 {% for subfield in subfields %}
     {% include field.getTemplateRootId() ~ '/subfields/' ~ subfield.getType() ~ '.twig' with {
-        config: subfield.getConfig()
+        config: loop.index0 == 0 ? (subfield.getConfig() | merge({
+            fieldClass: 'first'
+        })) : subfield.getConfig()
     } only %}
 {% endfor %}
