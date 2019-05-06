@@ -93,8 +93,18 @@
                             break;
 
                         case 'checkboxSelectField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            //	on de/-selected checkboxes
+                            subfieldContainer.find('input[type=checkbox]').change(function (event) {
+                                let elements = [];
+
+                                $(subfieldContainer.find('input[type=checkbox]')).each(function (index) {
+                                    if ($(this).is(':checked')) {
+                                        elements.push($(this).val());
+                                    }
+                                });
+
+                                updateHidden(subfieldData.key, elements);
+                            });
                             break;
 
                         case 'colorField':
@@ -176,7 +186,7 @@
                             break;
 
                         case 'multiselectField':
-                            //	on anything typed into the textfield
+                            //	on selection-change
                             subfield.change(function (event) {
                                 updateHidden(subfieldData.key, subfield.val());
                             });
@@ -195,7 +205,7 @@
                             break;
 
                         case 'selectField':
-                            //	on anything typed into the textfield
+                            //	on selection-change
                             subfield.change(function (event) {
                                 updateHidden(subfieldData.key, subfield.val());
                             });
