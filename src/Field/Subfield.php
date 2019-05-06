@@ -37,6 +37,14 @@ class Subfield
      */
     protected $type;
     /**
+     * @var string
+     */
+    protected $key;
+    /**
+     * @var string
+     */
+    protected $id;
+    /**
      * @var array
      */
     protected $config;
@@ -45,11 +53,15 @@ class Subfield
      * Subfield constructor.
      *
      * @param string $type one of the `Subfield::TYPE_…` constants
+     * @param string $key the field name as used in the ModuleField's value object
+     * @param string $id the subfield's field ID (the full name including the namespace)
      * @param array $config the config object to be passed to the Twig macro for rendering this field
      */
-    public function __construct(string $type, array $config = [])
+    public function __construct(string $type, string $key, string $id, array $config = [])
     {
         $this->type = $type;
+        $this->key = $key;
+        $this->id = $id;
         $this->config = $config;
     }
 
@@ -71,6 +83,46 @@ class Subfield
     public function setType(string $type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * Returns the key.
+     *
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * Sets the key.
+     *
+     * @param string $key
+     */
+    public function setKey(string $key)
+    {
+        $this->key = $key;
+    }
+
+    /**
+     * Returns the id.
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * Sets the id.
+     *
+     * @param string $id
+     */
+    public function setId(string $id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -102,6 +154,8 @@ class Subfield
     {
         return [
             'type' =>  $this->getType(),
+            'key' =>  $this->getKey(),
+            'id' =>  $this->getId(),
             'config' => $this->getConfig(),
         ];
     }

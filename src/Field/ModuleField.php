@@ -20,12 +20,13 @@ abstract class ModuleField extends Field
     /**
      * Returns all sub-field configurations for this module field.
      *
+     * @param string $id
      * @param string $name
      * @param \stdClass|null $value
      *
      * @return \Vierbeuter\Craft\Field\Subfield[]
      */
-    abstract public function getSubfields(string $name, \stdClass $value = null): array;
+    abstract public function getSubfields(string $id, string $name, \stdClass $value = null): array;
 
     /**
      * Returns the validation rules for attributes.
@@ -322,27 +323,31 @@ abstract class ModuleField extends Field
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        //  determine subfields
-        $subfields = $this->getSubfields($this->handle, Json::decode($value, false));
-
         $view = Craft::$app->getView();
 
         // Register our asset bundle
         $view->registerAssetBundle($this->getAssetBundleClass());
-
         // Get our id and namespace
         $id = $view->formatInputId($this->handle);
         $namespacedId = $view->namespaceInputId($id);
 
+        //  determine subfields
+        $subfields = $this->getSubfields(
+            empty($element->getId()) ? $namespacedId : str_replace('__BLOCK__', $element->getId(), $namespacedId),
+            $this->handle,
+            Json::decode($value, false)
+        );
+
         // Variables to pass down to our field JavaScript to let it namespace properly
         $jsonVars = [
-            'id' => $id,
+            'id' => $id . $element->getId(),
             'name' => $this->handle,
             'namespace' => $namespacedId,
             'prefix' => $view->namespaceInputId(''),
             'subfields' => array_map(function (Subfield $subfield) {
                 return $subfield->toArray();
             }, $subfields),
+            'init' => empty($element->getId()),
         ];
         $jsonVars = Json::encode($jsonVars);
         $view->registerJs("$('#{$namespacedId}-field').ModuleField(" . $jsonVars . ");");
