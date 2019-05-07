@@ -53,18 +53,27 @@ class Subfield
      * Subfield constructor.
      *
      * @param string $type one of the `Subfield::TYPE_…` constants
+     * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
      * @param string $id the module field's ID (the full name including the namespace)
      * @param string $name the module field's name to be sent to Craft via form-sbmit
      * @param string $suffix the suffix being added to the module field's name to identify this subfield
      * @param string $key the field name as used in the ModuleField's value object
      * @param array $config the config object to be passed to the Twig macro for rendering this field
      */
-    public function __construct(string $type, string $id, string $name, string $suffix, string $key, array $config = [])
-    {
-        $defaultConfig = [
+    public function __construct(
+        string $type,
+        string $label,
+        string $id,
+        string $name,
+        string $suffix,
+        string $key,
+        array $config = []
+    ) {
+        $defaultConfig = array_filter([
+            'label' => $label,
             'id' => $name . $suffix,
             'name' => $name . $suffix,
-        ];
+        ]);
 
         $this->type = $type;
         $this->key = $key;
