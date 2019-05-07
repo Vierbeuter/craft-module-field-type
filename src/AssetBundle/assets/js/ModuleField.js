@@ -227,8 +227,11 @@
                             break;
 
                         case 'radioGroupField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            //	on selection-change
+                            subfieldContainer.change(function (event) {
+                                let selectedRadio = $(subfieldContainer.find('input[type=radio]:checked')).get(0);
+                                updateHidden(subfieldData.key, $(selectedRadio).val());
+                            });
                             break;
 
                         case 'selectField':
