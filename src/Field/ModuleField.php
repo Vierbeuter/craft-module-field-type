@@ -20,9 +20,9 @@ abstract class ModuleField extends Field
     /**
      * Returns all sub-field configurations for this module field.
      *
-     * @param string $id
-     * @param string $name
-     * @param \stdClass|null $value
+     * @param string $id the module field's ID (the full name including the namespace)
+     * @param string $name the module field's name to be sent to Craft via form-sbmit
+     * @param \stdClass|null $value the module field's value
      *
      * @return \Vierbeuter\Craft\Field\Subfield[]
      */
