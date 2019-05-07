@@ -68,7 +68,7 @@ class Subfield
 
         $this->type = $type;
         $this->key = $key;
-        $this->id = $id;
+        $this->id = $id . $suffix;
         $this->config = array_merge($defaultConfig, $config);
     }
 
