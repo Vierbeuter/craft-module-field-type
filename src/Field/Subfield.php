@@ -53,16 +53,23 @@ class Subfield
      * Subfield constructor.
      *
      * @param string $type one of the `Subfield::TYPE_…` constants
+     * @param string $id the module field's ID (the full name including the namespace)
+     * @param string $name the module field's name to be sent to Craft via form-sbmit
+     * @param string $suffix the suffix being added to the module field's name to identify this subfield
      * @param string $key the field name as used in the ModuleField's value object
-     * @param string $id the subfield's field ID (the full name including the namespace)
      * @param array $config the config object to be passed to the Twig macro for rendering this field
      */
-    public function __construct(string $type, string $key, string $id, array $config = [])
+    public function __construct(string $type, string $id, string $name, string $suffix, string $key, array $config = [])
     {
+        $defaultConfig = [
+            'id' => $name . $suffix,
+            'name' => $name . $suffix,
+        ];
+
         $this->type = $type;
         $this->key = $key;
         $this->id = $id;
-        $this->config = $config;
+        $this->config = array_merge($defaultConfig, $config);
     }
 
     /**
@@ -150,12 +157,12 @@ class Subfield
      *
      * @return array
      */
-    public function toArray():array
+    public function toArray(): array
     {
         return [
-            'type' =>  $this->getType(),
-            'key' =>  $this->getKey(),
-            'id' =>  $this->getId(),
+            'type' => $this->getType(),
+            'key' => $this->getKey(),
+            'id' => $this->getId(),
             'config' => $this->getConfig(),
         ];
     }
