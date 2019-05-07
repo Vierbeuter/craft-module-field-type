@@ -94,7 +94,7 @@
 
                         case 'checkboxSelectField':
                             //	on de/-selected checkboxes
-                            subfieldContainer.find('input[type=checkbox]').change(function (event) {
+                            subfieldContainer.change(function (event) {
                                 let elements = [];
 
                                 $(subfieldContainer.find('input[type=checkbox]')).each(function (index) {
@@ -113,7 +113,7 @@
                                 let colorTextField = $(colorTextFields.get(0));
 
                                 //  on changed color by using the color-picker
-                                subfieldContainer.find('input').change(function (event) {
+                                subfieldContainer.change(function (event) {
                                     updateHidden(subfieldData.key, colorTextField.val());
                                 });
                                 //	on anything typed into the color field's text input
@@ -124,13 +124,40 @@
                             break;
 
                         case 'dateField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            let dateFields = subfieldContainer.find('input[type=text]');
+                            if (dateFields.length) {
+                                let dateField = $(dateFields.get(0));
+
+                                //  on date-select
+                                subfieldContainer.change(function (event) {
+                                    updateHidden(subfieldData.key, dateField.val());
+                                });
+                                //	on anything typed into the date field's text input
+                                dateField.keyup(function (event) {
+                                    updateHidden(subfieldData.key, dateField.val());
+                                });
+                            }
                             break;
 
                         case 'dateTimeField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            let dateTimeFields = subfieldContainer.find('input[type=text]');
+                            if (dateTimeFields.length) {
+                                let dateField = $(dateTimeFields.get(0));
+                                let timeField = $(dateTimeFields.get(1));
+
+                                //  on date/time-select
+                                subfieldContainer.change(function (event) {
+                                    updateHidden(subfieldData.key, dateField.val() + ' ' + timeField.val());
+                                });
+                                //	on anything typed into the date field's text input
+                                dateField.keyup(function (event) {
+                                    updateHidden(subfieldData.key, dateField.val() + ' ' + timeField.val());
+                                });
+                                //	on anything typed into the time field's text input
+                                timeField.keyup(function (event) {
+                                    updateHidden(subfieldData.key, dateField.val() + ' ' + timeField.val());
+                                });
+                            }
                             break;
 
                         case 'editableTableField':
@@ -226,8 +253,19 @@
                             break;
 
                         case 'timeField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            let timeFields = subfieldContainer.find('input[type=text]');
+                            if (timeFields.length) {
+                                let timeField = $(timeFields.get(0));
+
+                                //  on time-select
+                                timeField.change(function (event) {
+                                    updateHidden(subfieldData.key, timeField.val());
+                                });
+                                //	on anything typed into the time field's text input
+                                timeField.keyup(function (event) {
+                                    updateHidden(subfieldData.key, timeField.val());
+                                });
+                            }
                             break;
 
                     }
