@@ -203,12 +203,8 @@
 
                         case 'lightswitchField':
                             //  on switched lightswitch
-                            subfield.on('change', function (event) {
-                                let checkboxHiddenField = subfield.find('input[type=hidden]');
-                                updateHidden(
-                                    subfieldData.key,
-                                    checkboxHiddenField.length ? $(checkboxHiddenField.get(0)).val().length > 0 : false
-                                );
+                            subfield.change(function (event) {
+                                updateHidden(subfieldData.key, subfield.hasClass('on'));
                             });
                             break;
 
