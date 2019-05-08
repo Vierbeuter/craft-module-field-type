@@ -63,15 +63,14 @@ class Subfield
      * @param string $type one of the `Subfield::TYPE_…` constants
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
      * @param string $key the field name as used in the ModuleField's value object
-     * @param string $suffix the suffix being added to the module field's name to identify this subfield
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
      */
-    public function __construct(string $type, string $label, string $key, string $suffix, array $config = [])
+    public function __construct(string $type, string $label, string $key, array $config = [])
     {
         $this->type = $type;
         $this->label = $label;
         $this->key = $key;
-        $this->suffix = $suffix;
+        $this->suffix = strtoupper($key[0]) . substr($key, 1);
         $this->config = $config;
     }
 

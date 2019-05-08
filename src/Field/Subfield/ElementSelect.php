@@ -22,12 +22,11 @@ class ElementSelect extends Subfield
      * @param string $elementType the element's type, a fully qualified class name such as `craft\\elements\\Entry`
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
      * @param string $key the field name as used in the ModuleField's value object
-     * @param string $suffix the suffix being added to the module field's name to identify this subfield
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
      */
-    public function __construct(string $elementType, string $label, string $key, string $suffix, array $config = [])
+    public function __construct(string $elementType, string $label, string $key, array $config = [])
     {
-        parent::__construct(static::TYPE_ELEMENTSELECT, $label, $key, $suffix, $config);
+        parent::__construct(static::TYPE_ELEMENTSELECT, $label, $key, $config);
 
         $this->elementType = $elementType;
     }
