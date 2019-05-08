@@ -39,11 +39,19 @@ class Subfield
     /**
      * @var string
      */
+    protected $id;
+    /**
+     * @var string
+     */
+    private $label;
+    /**
+     * @var string
+     */
     protected $key;
     /**
      * @var string
      */
-    protected $id;
+    private $suffix;
     /**
      * @var array
      */
@@ -54,31 +62,32 @@ class Subfield
      *
      * @param string $type one of the `Subfield::TYPE_…` constants
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
-     * @param string $id the module field's ID (the full name including the namespace)
-     * @param string $name the module field's name to be sent to Craft via form-sbmit
-     * @param string $suffix the suffix being added to the module field's name to identify this subfield
      * @param string $key the field name as used in the ModuleField's value object
-     * @param array $config the config object to be passed to the Twig macro for rendering this field
+     * @param string $suffix the suffix being added to the module field's name to identify this subfield
+     * @param array $config custom config array which overrides the resulting config of `initConfig()` method
      */
-    public function __construct(
-        string $type,
-        string $label,
-        string $id,
-        string $name,
-        string $suffix,
-        string $key,
-        array $config = []
-    ) {
-        $defaultConfig = array_filter([
-            'label' => $label,
-            'id' => $name . $suffix,
-            'name' => $name . $suffix,
-        ]);
-
+    public function __construct(string $type, string $label, string $key, string $suffix, array $config = [])
+    {
         $this->type = $type;
+        $this->label = $label;
         $this->key = $key;
-        $this->id = $id . $suffix;
-        $this->config = array_merge($defaultConfig, $config);
+        $this->suffix = $suffix;
+        $this->config = $config;
+    }
+
+    /**
+     * Initializes the sub-field's config with given default config and module field's value. Returns the resulting
+     * config array.
+     *
+     * @param array $config the config object to be passed to the Twig macro for rendering this field
+     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     *     `$value->{$this->key}`
+     *
+     * @return array
+     */
+    public function initConfig(array $config, \stdClass $value = null): array
+    {
+        return $config;
     }
 
     /**
@@ -99,6 +108,26 @@ class Subfield
     public function setType(string $type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * Returns the label.
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    /**
+     * Sets the label.
+     *
+     * @param string $label
+     */
+    public function setLabel(string $label)
+    {
+        $this->label = $label;
     }
 
     /**
@@ -132,13 +161,13 @@ class Subfield
     }
 
     /**
-     * Sets the id.
+     * Sets the id (will be suffixed automatically).
      *
-     * @param string $id
+     * @param string $id the module field's ID (the full name including the namespace)
      */
     public function setId(string $id)
     {
-        $this->id = $id;
+        $this->id = $id . $this->suffix;
     }
 
     /**
@@ -159,6 +188,17 @@ class Subfield
     public function setConfig(array $config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * Sets the field name by updating the config arrray (name will be suffixed automatically).
+     *
+     * @param string $name the module field's name to be sent to Craft via form-sbmit
+     */
+    public function setName(string $name)
+    {
+        $this->config['id'] = $name . $this->suffix;
+        $this->config['name'] = $name . $this->suffix;
     }
 
     /**

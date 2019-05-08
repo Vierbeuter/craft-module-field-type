@@ -20,13 +20,9 @@ abstract class ModuleField extends Field
     /**
      * Returns all sub-field configurations for this module field.
      *
-     * @param string $id the module field's ID (the full name including the namespace)
-     * @param string $name the module field's name to be sent to Craft via form-sbmit
-     * @param \stdClass|null $value the module field's value
-     *
      * @return \Vierbeuter\Craft\Field\Subfield[]
      */
-    abstract public function getSubfields(string $id, string $name, \stdClass $value = null): array;
+    abstract public function getSubfields(): array;
 
     /**
      * Returns the validation rules for attributes.
@@ -331,12 +327,23 @@ abstract class ModuleField extends Field
         $id = $view->formatInputId($this->handle);
         $namespacedId = $view->namespaceInputId($id);
 
-        //  determine subfields
-        $subfields = $this->getSubfields(
-            empty($element->getId()) ? $namespacedId : str_replace('__BLOCK__', $element->getId(), $namespacedId),
-            $this->handle,
-            Json::decode($value, false)
-        );
+        //  determine and initialize subfields
+        $subfields = array_map(function (Subfield $subfield) use ($element, $namespacedId, $value) {
+            //  init some basic fields that are needed for config initialization
+            $id = empty($element->getId()) ? $namespacedId : str_replace('__BLOCK__', $element->getId(), $namespacedId);
+            $subfield->setId($id);
+            $subfield->setName($this->handle);
+
+            //  keep config customizations in mind to override the resulting config array with
+            $config = $subfield->getConfig();
+            //  finally, initialize the config to be passed to the field's Twig macro and override with customizations
+            $config = array_merge($subfield->initConfig(array_filter([
+                'label' => $subfield->getLabel(),
+            ]), Json::decode($value, false)), $config);
+            $subfield->setConfig($config);
+
+            return $subfield;
+        }, $this->getSubfields());
 
         // Variables to pass down to our field JavaScript to let it namespace properly
         $jsonVars = [
