@@ -21,7 +21,6 @@ class Subfield
     const TYPE_DATETIME = 'dateTimeField';
     const TYPE_EDITABLETABLE = 'editableTableField';
     const TYPE_ELEMENTSELECT = 'elementSelectField';
-    const TYPE_FILE = 'fileField';
     const TYPE_HIDDEN = 'hidden';
     const TYPE_LIGHTSWITCH = 'lightswitchField';
     const TYPE_MULTISELECT = 'multiselectField';

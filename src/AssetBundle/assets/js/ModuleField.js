@@ -196,11 +196,6 @@
                             });
                             break;
 
-                        case 'fileField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
-                            break;
-
                         case 'lightswitchField':
                             //  on switched lightswitch
                             subfield.change(function (event) {
