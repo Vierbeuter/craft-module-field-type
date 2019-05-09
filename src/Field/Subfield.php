@@ -14,7 +14,6 @@ class Subfield
 
     const TYPE_AUTOSUGGEST = 'autosuggestField';
     const TYPE_CHECKBOX = 'checkboxField';
-    const TYPE_CHECKBOXGROUP = 'checkboxGroupField';
     const TYPE_CHECKBOXSELECT = 'checkboxSelectField';
     const TYPE_COLOR = 'colorField';
     const TYPE_DATE = 'dateField';

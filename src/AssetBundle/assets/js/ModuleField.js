@@ -87,11 +87,6 @@
                             });
                             break;
 
-                        case 'checkboxGroupField':
-                            //  TODO: implement me!
-                            alert('Field type "' + subfieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
-                            break;
-
                         case 'checkboxSelectField':
                             //	on de/-selected checkboxes
                             subfieldContainer.change(function (event) {
