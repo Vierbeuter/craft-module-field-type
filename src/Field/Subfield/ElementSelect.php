@@ -32,8 +32,8 @@ class ElementSelect extends Subfield
     }
 
     /**
-     * Initializes the sub-field's config with given default config and module field's value. Returns the resulting
-     * config array.
+     * Configures the sub-field with given default config and the module field's value. Returns the resulting config
+     * array.
      *
      * @param array $config the config object to be passed to the Twig macro for rendering this field
      * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
@@ -41,7 +41,7 @@ class ElementSelect extends Subfield
      *
      * @return array
      */
-    public function initConfig(array $config, \stdClass $value = null): array
+    public function configure(array $config, \stdClass $value = null): array
     {
         $config['elementType'] = $this->elementType;
         $config['value'] = !empty($value->{$this->key}) ? $value->{$this->key} : null;

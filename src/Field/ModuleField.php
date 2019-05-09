@@ -328,22 +328,10 @@ abstract class ModuleField extends Field
         $namespacedId = $view->namespaceInputId($id);
 
         //  determine and initialize subfields
-        $subfields = array_map(function (Subfield $subfield) use ($element, $namespacedId, $value) {
-            //  init some basic fields that are needed for config initialization
-            $id = empty($element->getId()) ? $namespacedId : str_replace('__BLOCK__', $element->getId(), $namespacedId);
-            $subfield->setId($id);
-            $subfield->setName($this->handle);
-
-            //  keep config customizations in mind to override the resulting config array with
-            $config = $subfield->getConfig();
-            //  finally, initialize the config to be passed to the field's Twig macro and override with customizations
-            $config = array_merge($subfield->initConfig(array_filter([
-                'label' => $subfield->getLabel(),
-            ]), Json::decode($value, false)), $config);
-            $subfield->setConfig($config);
-
-            return $subfield;
-        }, $this->getSubfields());
+        $subfields = $this->getSubfields();
+        foreach ($subfields as $subfield) {
+            $subfield->init($this->handle, $element, $namespacedId, $value);
+        }
 
         // Variables to pass down to our field JavaScript to let it namespace properly
         $jsonVars = [

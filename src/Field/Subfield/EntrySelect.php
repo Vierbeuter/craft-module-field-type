@@ -14,8 +14,8 @@ class EntrySelect extends EntriesSelect
 {
 
     /**
-     * Initializes the sub-field's config with given default config and module field's value. Returns the resulting
-     * config array.
+     * Configures the sub-field with given default config and the module field's value. Returns the resulting config
+     * array.
      *
      * @param array $config the config object to be passed to the Twig macro for rendering this field
      * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
@@ -23,11 +23,11 @@ class EntrySelect extends EntriesSelect
      *
      * @return array
      */
-    public function initConfig(array $config, \stdClass $value = null): array
+    public function configure(array $config, \stdClass $value = null): array
     {
         $config['limit'] = 1;
 
-        return parent::initConfig($config, $value);
+        return parent::configure($config, $value);
     }
 }
 

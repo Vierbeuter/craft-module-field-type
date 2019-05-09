@@ -2,6 +2,9 @@
 
 namespace Vierbeuter\Craft\Field;
 
+use craft\base\ElementInterface;
+use craft\helpers\Json;
+
 /**
  * A Subfield defines a field type and its configuration to render a form field with.
  *
@@ -41,15 +44,11 @@ class Subfield
     /**
      * @var string
      */
-    private $label;
-    /**
-     * @var string
-     */
     protected $key;
     /**
      * @var string
      */
-    private $suffix;
+    protected $suffix;
     /**
      * @var array
      */
@@ -66,15 +65,43 @@ class Subfield
     public function __construct(string $type, string $label, string $key, array $config = [])
     {
         $this->type = $type;
-        $this->label = $label;
         $this->key = $key;
         $this->suffix = strtoupper($key[0]) . substr($key, 1);
-        $this->config = $config;
+        $this->config = array_merge(array_filter([
+            'label' => $label,
+        ]), $config);
     }
 
     /**
-     * Initializes the sub-field's config with given default config and module field's value. Returns the resulting
-     * config array.
+     * Initializes the subfield with given module field data.
+     *
+     * Sets suffixed name and ID, for instance.
+     *
+     * @param string $name the module field's handle
+     * @param \craft\base\ElementInterface $element the element the module field is associated with, if there is one
+     * @param string $namespacedId the module field's input ID
+     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     *     `$value->{$this->key}`
+     */
+    public function init(string $name, ElementInterface $element, string $namespacedId, $value)
+    {
+        //  init some basic data that is needed before finish configuration
+        //  (because `$this->configure()` may rely on these fields)
+        $id = empty($element->getId()) ? $namespacedId : str_replace('__BLOCK__', $element->getId(), $namespacedId);
+        $this->id = $id . $this->suffix;
+        $this->config['id'] = $name . $this->suffix;
+        $this->config['name'] = $name . $this->suffix;
+
+        //  finish configuration (that'll be later passed to the field's Twig macro) by overriding current config with
+        //  subclass-specific customizations (depends on implementation of `$this->configure()` and given field value)
+        $this->config = $this->configure($this->getConfig(), Json::decode($value, false));
+    }
+
+    /**
+     * Configures the sub-field with given default config and the module field's value. Returns the resulting config
+     * array.
+     *
+     * Method can be overridden.
      *
      * @param array $config the config object to be passed to the Twig macro for rendering this field
      * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
@@ -82,8 +109,9 @@ class Subfield
      *
      * @return array
      */
-    public function initConfig(array $config, \stdClass $value = null): array
+    protected function configure(array $config, \stdClass $value = null): array
     {
+        //  by default just return the config as is
         return $config;
     }
 
@@ -98,36 +126,6 @@ class Subfield
     }
 
     /**
-     * Sets the type.
-     *
-     * @param string $type
-     */
-    public function setType(string $type)
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * Returns the label.
-     *
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * Sets the label.
-     *
-     * @param string $label
-     */
-    public function setLabel(string $label)
-    {
-        $this->label = $label;
-    }
-
-    /**
      * Returns the key.
      *
      * @return string
@@ -135,16 +133,6 @@ class Subfield
     public function getKey(): string
     {
         return $this->key;
-    }
-
-    /**
-     * Sets the key.
-     *
-     * @param string $key
-     */
-    public function setKey(string $key)
-    {
-        $this->key = $key;
     }
 
     /**
@@ -158,16 +146,6 @@ class Subfield
     }
 
     /**
-     * Sets the id (will be suffixed automatically).
-     *
-     * @param string $id the module field's ID (the full name including the namespace)
-     */
-    public function setId(string $id)
-    {
-        $this->id = $id . $this->suffix;
-    }
-
-    /**
      * Returns the config.
      *
      * @return array
@@ -175,27 +153,6 @@ class Subfield
     public function getConfig(): array
     {
         return $this->config;
-    }
-
-    /**
-     * Sets the config.
-     *
-     * @param array $config
-     */
-    public function setConfig(array $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * Sets the field name by updating the config arrray (name will be suffixed automatically).
-     *
-     * @param string $name the module field's name to be sent to Craft via form-sbmit
-     */
-    public function setName(string $name)
-    {
-        $this->config['id'] = $name . $this->suffix;
-        $this->config['name'] = $name . $this->suffix;
     }
 
     /**
