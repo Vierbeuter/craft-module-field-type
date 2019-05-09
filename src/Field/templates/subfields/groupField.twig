@@ -1,0 +1,10 @@
+{% set templatePath = (_self | split('/') | slice(0, -1) | join('/')) ~ '/' %}
+
+<div class="subfield-group">
+{% for subfield in field.getSubfields() %}
+    {% include templatePath ~ subfield.getType() ~ '.twig' with {
+        config: subfield.getConfig(),
+        field: subfield
+    } only %}
+{% endfor %}
+</div>

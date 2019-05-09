@@ -32,6 +32,7 @@ class Subfield
     const TYPE_TEXTAREA = 'textareaField';
     const TYPE_TEXT = 'textField';
     const TYPE_TIME = 'timeField';
+    const TYPE_GROUP = 'groupField';
 
     /**
      * @var string
