@@ -17,7 +17,7 @@ class Group extends Subfield
     /**
      * @var \Vierbeuter\Craft\Field\Subfield[]
      */
-    private $subfields;
+    protected $subfields;
 
     /**
      * Subfield constructor.
@@ -45,7 +45,22 @@ class Group extends Subfield
     public function init(string $name, ElementInterface $element, string $namespacedId, $value)
     {
         parent::init($name, $element, $namespacedId, $value);
+        $this->initSubfields($name, $element, $namespacedId, $value);
+    }
 
+    /**
+     * Initializes the group's subfields with given module field data.
+     *
+     * This method may be overridden.
+     *
+     * @param string $name the module field's handle
+     * @param \craft\base\ElementInterface $element the element the module field is associated with, if there is one
+     * @param string $namespacedId the module field's input ID
+     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     *     `$value->{$this->key}`
+     */
+    protected function initSubfields(string $name, ElementInterface $element, string $namespacedId, $value)
+    {
         foreach ($this->getSubfields() as $subfield) {
             $subfield->suffix = $this->suffix . $subfield->suffix;
             $subfield->init($name, $element, $namespacedId, !empty($value->{$this->key}) ? $value->{$this->key} : null);
