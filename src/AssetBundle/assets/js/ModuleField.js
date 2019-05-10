@@ -35,8 +35,9 @@
                  *
                  * @param updatedKey
                  * @param updatedValue
+                 * @param hiddenField
                  */
-                let updateHidden = function (updatedKey, updatedValue) {
+                let updateHidden = function (updatedKey, updatedValue, hiddenField) {
                     //  get module's current value
                     let value = hiddenField.val();
 
@@ -51,23 +52,26 @@
 
                     //  update the actual input with new JSON value
                     hiddenField.val(JSON.stringify(value));
+                    //  trigger change event to notify any listeners (like an outer group)
+                    hiddenField.change();
                 };
 
                 /**
                  * Initializes the given subfield, like binding change events on it to update the hidden module field.
                  *
                  * @param fieldData
+                 * @param hiddenField
                  *
                  * @see updateHidden()
                  */
-                let initSubfield = function (fieldData) {
+                let initSubfield = function (fieldData, hiddenField) {
                     //  init field data with NULL
                     if (_this.options.init) {
                         //  FIXME: some field types require special init values
                         //  --> such as selectField where either the very first option or the one selected by default should be used instead of NULL
                         //  --> or an elementSelectField's init value should rather be an empty array than NULL
                         //  --> check also initial/default values in config objects passed to Craft's form field macros
-                        updateHidden(fieldData.key, null);
+                        updateHidden(fieldData.key, null, hiddenField);
                     }
 
                     let subfield = $('#' + fieldData.id);
@@ -84,7 +88,7 @@
                         case 'checkboxField':
                             //  on de-/selected checkbox
                             subfield.change(function (event) {
-                                updateHidden(fieldData.key, subfield.is(':checked'));
+                                updateHidden(fieldData.key, subfield.is(':checked'), hiddenField);
                             });
                             break;
 
@@ -99,7 +103,7 @@
                                     }
                                 });
 
-                                updateHidden(fieldData.key, elements);
+                                updateHidden(fieldData.key, elements, hiddenField);
                             });
                             break;
 
@@ -110,11 +114,11 @@
 
                                 //  on changed color by using the color-picker
                                 subfieldContainer.change(function (event) {
-                                    updateHidden(fieldData.key, colorTextField.val());
+                                    updateHidden(fieldData.key, colorTextField.val(), hiddenField);
                                 });
                                 //	on anything typed into the color field's text input
                                 colorTextField.keyup(function (event) {
-                                    updateHidden(fieldData.key, colorTextField.val());
+                                    updateHidden(fieldData.key, colorTextField.val(), hiddenField);
                                 });
                             }
                             break;
@@ -126,11 +130,11 @@
 
                                 //  on date-select
                                 subfieldContainer.change(function (event) {
-                                    updateHidden(fieldData.key, dateField.val());
+                                    updateHidden(fieldData.key, dateField.val(), hiddenField);
                                 });
                                 //	on anything typed into the date field's text input
                                 dateField.keyup(function (event) {
-                                    updateHidden(fieldData.key, dateField.val());
+                                    updateHidden(fieldData.key, dateField.val(), hiddenField);
                                 });
                             }
                             break;
@@ -143,15 +147,15 @@
 
                                 //  on date/time-select
                                 subfieldContainer.change(function (event) {
-                                    updateHidden(fieldData.key, dateField.val() + ' ' + timeField.val());
+                                    updateHidden(fieldData.key, dateField.val() + ' ' + timeField.val(), hiddenField);
                                 });
                                 //	on anything typed into the date field's text input
                                 dateField.keyup(function (event) {
-                                    updateHidden(fieldData.key, dateField.val() + ' ' + timeField.val());
+                                    updateHidden(fieldData.key, dateField.val() + ' ' + timeField.val(), hiddenField);
                                 });
                                 //	on anything typed into the time field's text input
                                 timeField.keyup(function (event) {
-                                    updateHidden(fieldData.key, dateField.val() + ' ' + timeField.val());
+                                    updateHidden(fieldData.key, dateField.val() + ' ' + timeField.val(), hiddenField);
                                 });
                             }
                             break;
@@ -176,9 +180,9 @@
                                 //  if element selection is limited to 1 element only
                                 if ('limit' in fieldData.config && fieldData.config.limit === 1) {
                                     //  either single element or NULL
-                                    updateHidden(fieldData.key, elements.length ? elements.pop() : null);
+                                    updateHidden(fieldData.key, elements.length ? elements.pop() : null, hiddenField);
                                 } else {
-                                    updateHidden(fieldData.key, elements);
+                                    updateHidden(fieldData.key, elements, hiddenField);
                                 }
                             };
 
@@ -192,24 +196,30 @@
                             });
                             break;
 
+                        case 'groupField':
+                            subfield.change(function (event) {
+                                updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
+                            });
+                            break;
+
                         case 'lightswitchField':
                             //  on switched lightswitch
                             subfield.change(function (event) {
-                                updateHidden(fieldData.key, subfield.hasClass('on'));
+                                updateHidden(fieldData.key, subfield.hasClass('on'), hiddenField);
                             });
                             break;
 
                         case 'multiselectField':
                             //	on selection-change
                             subfield.change(function (event) {
-                                updateHidden(fieldData.key, subfield.val());
+                                updateHidden(fieldData.key, subfield.val(), hiddenField);
                             });
                             break;
 
                         case 'passwordField':
                             //	on anything typed into the password field
                             subfield.keyup(function (event) {
-                                updateHidden(fieldData.key, subfield.val());
+                                updateHidden(fieldData.key, subfield.val(), hiddenField);
                             });
                             break;
 
@@ -217,28 +227,28 @@
                             //	on selection-change
                             subfieldContainer.change(function (event) {
                                 let selectedRadio = $(subfieldContainer.find('input[type=radio]:checked')).get(0);
-                                updateHidden(fieldData.key, $(selectedRadio).val());
+                                updateHidden(fieldData.key, $(selectedRadio).val(), hiddenField);
                             });
                             break;
 
                         case 'selectField':
                             //	on selection-change
                             subfield.change(function (event) {
-                                updateHidden(fieldData.key, subfield.val());
+                                updateHidden(fieldData.key, subfield.val(), hiddenField);
                             });
                             break;
 
                         case 'textareaField':
                             //	on anything typed into the textarea
                             subfield.keyup(function (event) {
-                                updateHidden(fieldData.key, subfield.val());
+                                updateHidden(fieldData.key, subfield.val(), hiddenField);
                             });
                             break;
 
                         case 'textField':
                             //	on anything typed into the textfield
                             subfield.keyup(function (event) {
-                                updateHidden(fieldData.key, subfield.val());
+                                updateHidden(fieldData.key, subfield.val(), hiddenField);
                             });
                             break;
 
@@ -249,11 +259,11 @@
 
                                 //  on time-select
                                 timeField.change(function (event) {
-                                    updateHidden(fieldData.key, timeField.val());
+                                    updateHidden(fieldData.key, timeField.val(), hiddenField);
                                 });
                                 //	on anything typed into the time field's text input
                                 timeField.keyup(function (event) {
-                                    updateHidden(fieldData.key, timeField.val());
+                                    updateHidden(fieldData.key, timeField.val(), hiddenField);
                                 });
                             }
                             break;
@@ -268,7 +278,7 @@
                              */
                             let subfieldData = fieldData.subfields[i];
 
-                            initSubfield(subfieldData);
+                            initSubfield(subfieldData, subfield);
                         }
                     }
                 };
@@ -280,7 +290,7 @@
                      */
                     let subfieldData = _this.options.subfields[i];
 
-                    initSubfield(subfieldData);
+                    initSubfield(subfieldData, hiddenField);
                 }
             });
         }
