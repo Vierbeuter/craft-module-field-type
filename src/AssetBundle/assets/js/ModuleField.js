@@ -161,8 +161,42 @@
                             break;
 
                         case 'editableTableField':
-                            //  TODO: implement me!
-                            alert('Field type "' + fieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
+                            let onTableChangeUpdateHidden = function (event) {
+                                //  determine data of table-rows
+                                let tableData = [];
+                                $($(event.target).closest('table')).find('tr').each(function () {
+                                    let rowData = [];
+                                    let rowInputs = $(this).find('td :input');
+
+                                    //  find values in current row
+                                    if (rowInputs.length) {
+                                        rowInputs.each(function () {
+                                            rowData.push($(this).val());
+                                        });
+
+                                        tableData.push(rowData);
+                                    }
+                                });
+
+                                updateHidden(fieldData.key, tableData, hiddenField);
+                            };
+
+                            //	on changed within the table
+                            subfieldContainer.find('table').change(function (event) {
+                                onTableChangeUpdateHidden(event);
+                            });
+                            //	on anything typed into any field in the table
+                            subfieldContainer.find('table').keyup(function (event) {
+                                onTableChangeUpdateHidden(event);
+                            });
+                            //	on added or removed table row
+                            //  FIXME: table fields are buggy on remove! --> maybe because of mutation events are deprecated --> use MutationObservers instead!
+                            subfieldContainer.find('table').on('DOMNodeInserted', function (event) {
+                                onTableChangeUpdateHidden(event);
+                            });
+                            subfieldContainer.find('table').on('DOMNodeRemoved', function (event) {
+                                onTableChangeUpdateHidden(event);
+                            });
                             break;
 
                         case 'elementSelectField':
