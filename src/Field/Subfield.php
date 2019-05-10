@@ -3,7 +3,6 @@
 namespace Vierbeuter\Craft\Field;
 
 use craft\base\ElementInterface;
-use craft\helpers\Json;
 
 /**
  * A Subfield defines a field type and its configuration to render a form field with.
@@ -95,7 +94,7 @@ class Subfield
 
         //  finish configuration (that'll be later passed to the field's Twig macro) by overriding current config with
         //  subclass-specific customizations (depends on implementation of `$this->configure()` and given field value)
-        $this->config = $this->configure($this->getConfig(), Json::decode($value, false));
+        $this->config = $this->configure($this->getConfig(), $value);
     }
 
     /**
