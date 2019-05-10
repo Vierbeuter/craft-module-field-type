@@ -46,6 +46,7 @@ class Group extends Subfield
         parent::init($name, $element, $namespacedId, $value);
 
         foreach ($this->getSubfields() as $subfield) {
+            $subfield->suffix = $this->suffix . $subfield->suffix;
             $subfield->init($name, $element, $namespacedId, $value);
         }
     }
