@@ -3,7 +3,7 @@
 namespace Vierbeuter\Craft\Field;
 
 use craft\base\ElementInterface;
-use craft\helpers\Json;
+use craft\helpers\StringHelper;
 
 /**
  * A Subfield defines a field type and its configuration to render a form field with.
@@ -32,6 +32,8 @@ class Subfield
     const TYPE_TEXTAREA = 'textareaField';
     const TYPE_TEXT = 'textField';
     const TYPE_TIME = 'timeField';
+    const TYPE_GROUP = 'groupField';
+    const TYPE_MULTIPLY = 'multiplyField';
 
     /**
      * @var string
@@ -59,14 +61,14 @@ class Subfield
      *
      * @param string $type one of the `Subfield::TYPE_…` constants
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
-     * @param string $key the field name as used in the ModuleField's value object
+     * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
      */
     public function __construct(string $type, string $label, string $key, array $config = [])
     {
         $this->type = $type;
-        $this->key = $key;
-        $this->suffix = strtoupper($key[0]) . substr($key, 1);
+        $this->key = StringHelper::camelCase($key);
+        $this->suffix = StringHelper::toPascalCase($this->key);
         $this->config = array_merge(array_filter([
             'label' => $label,
         ]), $config);
@@ -94,7 +96,7 @@ class Subfield
 
         //  finish configuration (that'll be later passed to the field's Twig macro) by overriding current config with
         //  subclass-specific customizations (depends on implementation of `$this->configure()` and given field value)
-        $this->config = $this->configure($this->getConfig(), Json::decode($value, false));
+        $this->config = $this->configure($this->getConfig(), $value);
     }
 
     /**

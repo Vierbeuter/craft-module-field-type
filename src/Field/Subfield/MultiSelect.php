@@ -23,7 +23,7 @@ class MultiSelect extends Subfield
      * MultiSelect constructor.
      *
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
-     * @param string $key the field name as used in the ModuleField's value object
+     * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $options list of available options, each entry is an array with the keys `label` and `value`
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
      */

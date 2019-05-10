@@ -330,7 +330,7 @@ abstract class ModuleField extends Field
         //  determine and initialize subfields
         $subfields = $this->getSubfields();
         foreach ($subfields as $subfield) {
-            $subfield->init($this->handle, $element, $namespacedId, $value);
+            $subfield->init($this->handle, $element, $namespacedId, Json::decode($value, false));
         }
 
         // Variables to pass down to our field JavaScript to let it namespace properly

@@ -18,7 +18,7 @@ class DateTime extends Subfield
      * DateTime constructor.
      *
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
-     * @param string $key the field name as used in the ModuleField's value object
+     * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
      */
     public function __construct(string $label, string $key, array $config = [])
