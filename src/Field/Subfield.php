@@ -3,6 +3,7 @@
 namespace Vierbeuter\Craft\Field;
 
 use craft\base\ElementInterface;
+use craft\helpers\StringHelper;
 
 /**
  * A Subfield defines a field type and its configuration to render a form field with.
@@ -59,14 +60,14 @@ class Subfield
      *
      * @param string $type one of the `Subfield::TYPE_…` constants
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
-     * @param string $key the field name as used in the ModuleField's value object
+     * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
      */
     public function __construct(string $type, string $label, string $key, array $config = [])
     {
         $this->type = $type;
-        $this->key = $key;
-        $this->suffix = strtoupper($key[0]) . substr($key, 1);
+        $this->key = StringHelper::camelCase($key);
+        $this->suffix = StringHelper::toPascalCase($this->key);
         $this->config = array_merge(array_filter([
             'label' => $label,
         ]), $config);

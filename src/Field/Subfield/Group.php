@@ -3,7 +3,6 @@
 namespace Vierbeuter\Craft\Field\Subfield;
 
 use craft\base\ElementInterface;
-use craft\helpers\Json;
 use Vierbeuter\Craft\Field\Subfield;
 
 /**
@@ -22,7 +21,7 @@ class Group extends Subfield
     /**
      * Subfield constructor.
      *
-     * @param string $key the field name as used in the ModuleField's value object
+     * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param Subfield[] $subfields group of inner subfields that is repeatable
      */
     public function __construct(string $key, array $subfields)
