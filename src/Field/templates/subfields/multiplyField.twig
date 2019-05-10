@@ -1,0 +1,17 @@
+{% set templatePath = (_self | split('/') | slice(0, -1) | join('/')) ~ '/' %}
+
+{# the multiply group's value as hidden field #}
+{% include templatePath ~ 'hidden.twig' with {
+    config: {
+        id: field.config.name,
+        name: field.config.name,
+        value: field.config.value,
+    }
+} only %}
+
+{% for subfield in field.getSubfields() %}
+    {% include templatePath ~ 'groupField.twig' with {
+        config: subfield.getConfig(),
+        field: subfield
+    } only %}
+{% endfor %}

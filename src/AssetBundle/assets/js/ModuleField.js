@@ -209,6 +209,12 @@
                             });
                             break;
 
+                        case 'multiplyField':
+                            subfield.change(function (event) {
+                                updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
+                            });
+                            break;
+
                         case 'multiselectField':
                             //	on selection-change
                             subfield.change(function (event) {

@@ -33,6 +33,7 @@ class Subfield
     const TYPE_TEXT = 'textField';
     const TYPE_TIME = 'timeField';
     const TYPE_GROUP = 'groupField';
+    const TYPE_MULTIPLY = 'multiplyField';
 
     /**
      * @var string
