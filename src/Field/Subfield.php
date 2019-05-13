@@ -85,7 +85,7 @@ class Subfield
      * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
      *     `$value->{$this->key}`
      */
-    public function init(string $name, ElementInterface $element, string $namespacedId, $value)
+    public function init(string $name, ElementInterface $element, string $namespacedId, \stdClass $value = null)
     {
         //  init some basic data that is needed before finish configuration
         //  (because `$this->configure()` may rely on these fields)
