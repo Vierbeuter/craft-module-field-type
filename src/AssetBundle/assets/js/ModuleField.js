@@ -271,6 +271,21 @@
                             });
                             break;
 
+                        case 'redactorField':
+                            //	on anything typed into the richtext editor
+                            subfieldContainer.keyup(function (event) {
+                                updateHidden(fieldData.key, $($(event.target).closest('.redactor-in')).html(), hiddenField);
+                            });
+                            //  on any markup changes (not caused by key-events but by clicks on one of the redactor's buttons)
+                            //  FIXME: mutation events are deprecated --> use MutationObservers instead!
+                            subfieldContainer.on('DOMNodeInserted', function (event) {
+                                updateHidden(fieldData.key, $($(event.target).closest('.redactor-in')).html(), hiddenField);
+                            });
+                            subfieldContainer.on('DOMNodeRemoved', function (event) {
+                                updateHidden(fieldData.key, $($(event.target).closest('.redactor-in')).html(), hiddenField);
+                            });
+                            break;
+
                         case 'selectField':
                             //	on selection-change
                             subfield.change(function (event) {

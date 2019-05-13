@@ -1,0 +1,10 @@
+<div class="field">
+    {% if config.label is not empty %}
+        <div class="heading">
+            <label for="{{ config.id }}" >{{ config.label }}</label>
+        </div>
+    {% endif %}
+    <div id="{{ config.id }}-field">
+        {{ config.markup | raw }}
+    </div>
+</div>

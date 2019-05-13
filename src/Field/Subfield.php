@@ -30,6 +30,7 @@ class Subfield
     const TYPE_MULTISELECT = 'multiselectField';
     const TYPE_PASSWORD = 'passwordField';
     const TYPE_RADIOGROUP = 'radioGroupField';
+    const TYPE_REDACTOR = 'redactorField';
     const TYPE_SELECT = 'selectField';
     const TYPE_TEXT = 'textField';
     const TYPE_TEXTAREA = 'textareaField';
