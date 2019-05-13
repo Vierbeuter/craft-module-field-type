@@ -192,24 +192,16 @@
                                 onTableChangeUpdateHidden(event);
                             });
 
+                            // observe changes applied to the subfield. Note: there is no differentiation between diffrent types of changes
                             const observer = new MutationObserver(function(mutations) {
                                 mutations.forEach(function(mutation) {
-                                    console.log('mutation', mutation);
+                                    onTableChangeUpdateHidden(mutation);
                                 });
                             });
-                            observer.observe(subfieldContainer, {
+                            observer.observe(subfield, {
                                 attributes: true,
                                 childList: true,
                                 characterData: true
-                            });
-
-                            //	on added or removed table row
-                            //  FIXME: table fields are buggy on remove! --> maybe because of mutation events are deprecated --> use MutationObservers instead!
-                            subfieldContainer.find('table').on('DOMNodeInserted', function (event) {
-                                onTableChangeUpdateHidden(event)
-                            });
-                            subfieldContainer.find('table').on('DOMNodeRemoved', function (event) {
-                                onTableChangeUpdateHidden(event);
                             });
                             break;
 
