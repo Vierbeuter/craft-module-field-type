@@ -23,17 +23,17 @@ class Subfield
     const TYPE_DATETIME = 'dateTimeField';
     const TYPE_EDITABLETABLE = 'editableTableField';
     const TYPE_ELEMENTSELECT = 'elementSelectField';
+    const TYPE_GROUP = 'groupField';
     const TYPE_HIDDEN = 'hidden';
     const TYPE_LIGHTSWITCH = 'lightswitchField';
+    const TYPE_MULTIPLY = 'multiplyField';
     const TYPE_MULTISELECT = 'multiselectField';
     const TYPE_PASSWORD = 'passwordField';
     const TYPE_RADIOGROUP = 'radioGroupField';
     const TYPE_SELECT = 'selectField';
-    const TYPE_TEXTAREA = 'textareaField';
     const TYPE_TEXT = 'textField';
+    const TYPE_TEXTAREA = 'textareaField';
     const TYPE_TIME = 'timeField';
-    const TYPE_GROUP = 'groupField';
-    const TYPE_MULTIPLY = 'multiplyField';
 
     /**
      * @var string
