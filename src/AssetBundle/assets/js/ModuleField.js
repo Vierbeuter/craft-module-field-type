@@ -161,10 +161,12 @@
                             break;
 
                         case 'editableTableField':
+                            console.log('editableTableField');
                             let onTableChangeUpdateHidden = function (event) {
                                 //  determine data of table-rows
                                 let tableData = [];
                                 $($(event.target).closest('table')).find('tr').each(function () {
+
                                     let rowData = [];
                                     let rowInputs = $(this).find('td :input');
 
@@ -189,10 +191,22 @@
                             subfieldContainer.find('table').keyup(function (event) {
                                 onTableChangeUpdateHidden(event);
                             });
+
+                            const observer = new MutationObserver(function(mutations) {
+                                mutations.forEach(function(mutation) {
+                                    console.log('mutation', mutation);
+                                });
+                            });
+                            observer.observe(subfieldContainer, {
+                                attributes: true,
+                                childList: true,
+                                characterData: true
+                            });
+
                             //	on added or removed table row
                             //  FIXME: table fields are buggy on remove! --> maybe because of mutation events are deprecated --> use MutationObservers instead!
                             subfieldContainer.find('table').on('DOMNodeInserted', function (event) {
-                                onTableChangeUpdateHidden(event);
+                                onTableChangeUpdateHidden(event)
                             });
                             subfieldContainer.find('table').on('DOMNodeRemoved', function (event) {
                                 onTableChangeUpdateHidden(event);
