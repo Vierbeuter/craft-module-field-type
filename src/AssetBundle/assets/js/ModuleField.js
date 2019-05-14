@@ -217,13 +217,13 @@
               break;
 
             case 'elementSelectField':
-              let onElementChangeUpdateHidden = function(event, add) {
+              let onElementChangeUpdateHidden = function(event) {
                 let elementHiddenFields = subfield.find('input[type=hidden]');
                 let elements = [];
 
                 $(elementHiddenFields).each(function(index) {
                   let elementId = parseInt($(this).val());
-                  if (add || parseInt(event.target.dataset.id) !== elementId) {
+                  if (event.removedNodes === 0 || parseInt(event.target.dataset.id) !== elementId) {
                     elements.push(elementId);
                   }
                 });
@@ -238,12 +238,15 @@
               };
 
               //	on changed element selection
-              //  FIXME: mutation events are deprecated --> use MutationObservers instead!
-              subfield.on('DOMNodeInserted', function(event) {
-                onElementChangeUpdateHidden(event, true);
+              const observer = new MutationObserver(function(mutations) {
+                // For the sake of...observation...let's output the mutation to console to see how this all works
+                mutations.forEach(function(mutation) {
+                    onElementChangeUpdateHidden(mutation, true);
+                });
               });
-              subfield.on('DOMNodeRemoved', function(event) {
-                onElementChangeUpdateHidden(event, false);
+              observer.observe(subfield[0], {
+                childList: true,
+                subtree: true,
               });
               break;
 
