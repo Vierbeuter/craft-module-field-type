@@ -161,7 +161,6 @@
                             break;
 
                         case 'editableTableField':
-                            console.log('editableTableField');
                             let onTableChangeUpdateHidden = function (event) {
                                 //  determine data of table-rows
                                 let tableData = [];
@@ -192,16 +191,8 @@
                                 onTableChangeUpdateHidden(event);
                             });
 
-                            // observe changes applied to the subfield. Note: there is no differentiation between diffrent types of changes
-                            const observer = new MutationObserver(function(mutations) {
-                                mutations.forEach(function(mutation) {
-                                    onTableChangeUpdateHidden(mutation);
-                                });
-                            });
-                            observer.observe(subfield, {
-                                attributes: true,
-                                childList: true,
-                                characterData: true
+                            $('.add, .delete, .move', subfieldContainer).on('click', function(event) {
+                              onTableChangeUpdateHidden(event);
                             });
                             break;
 
