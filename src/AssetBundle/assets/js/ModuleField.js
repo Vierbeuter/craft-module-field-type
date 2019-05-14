@@ -36,7 +36,7 @@
          * @param updatedValue
          * @param hiddenField
          */
-        let updateHidden = function(updatedKey, updatedValue, hiddenField) {
+        const updateHidden = function(updatedKey, updatedValue, hiddenField) {
           //  get module's current value
           let value = hiddenField.val();
 
@@ -55,6 +55,34 @@
           hiddenField.change();
         };
 
+        // init field with empty string
+        const initTextEmpty = function() {
+          if (_this.options.init) {
+            updateHidden(fieldData.key, '', hiddenField);
+          }
+        };
+
+        // init field with bool false
+        const initBoolFalse = function() {
+          if (_this.options.init) {
+            updateHidden(fieldData.key, false, hiddenField);
+          }
+        };
+
+        // init field with empty array
+        const initArrayEmpty = function() {
+          if (_this.options.init) {
+            updateHidden(fieldData.key, [], hiddenField);
+          }
+        };
+
+        // init field with null
+        const initNull = function() {
+          if (_this.options.init) {
+            updateHidden(fieldData.key, null, hiddenField);
+          }
+        };
+
         /**
          * Initializes the given subfield, like binding change events on it to update the hidden module field.
          *
@@ -63,15 +91,7 @@
          *
          * @see updateHidden()
          */
-        let initSubfield = function(fieldData, hiddenField) {
-          //  init field data with NULL
-          if (_this.options.init) {
-            //  FIXME: some field types require special init values
-            //  --> such as selectField where either the very first option or the one selected by default should be used instead of NULL
-            //  --> or an elementSelectField's init value should rather be an empty array than NULL
-            //  --> check also initial/default values in config objects passed to Craft's form field macros
-            updateHidden(fieldData.key, null, hiddenField);
-          }
+        const initSubfield = function(fieldData, hiddenField) {
 
           let subfield = $('#' + fieldData.id);
           let subfieldContainer = $('#' + fieldData.id + '-field');
@@ -85,6 +105,8 @@
               break;
 
             case 'checkboxField':
+              initBoolFalse();
+
               //  on de-/selected checkbox
               subfield.change(function(event) {
                 updateHidden(fieldData.key, subfield.is(':checked'), hiddenField);
@@ -92,6 +114,8 @@
               break;
 
             case 'checkboxSelectField':
+              initArrayEmpty();
+
               //	on de/-selected checkboxes
               subfieldContainer.change(function(event) {
                 let elements = [];
@@ -107,6 +131,8 @@
               break;
 
             case 'colorField':
+              initTextEmpty();
+
               let colorTextFields = subfieldContainer.find('input[type=text]');
               if (colorTextFields.length) {
                 let colorTextField = $(colorTextFields.get(0));
@@ -123,6 +149,8 @@
               break;
 
             case 'dateField':
+              initTextEmpty();
+
               let dateFields = subfieldContainer.find('input[type=text]');
               if (dateFields.length) {
                 let dateField = $(dateFields.get(0));
@@ -139,6 +167,8 @@
               break;
 
             case 'dateTimeField':
+              initTextEmpty();
+
               let dateTimeFields = subfieldContainer.find('input[type=text]');
               if (dateTimeFields.length) {
                 let dateField = $(dateTimeFields.get(0));
@@ -160,6 +190,8 @@
               break;
 
             case 'editableTableField':
+              initArrayEmpty();
+
               const onTableChangeUpdateHidden = function() {
                 //  determine data of table-rows
                 let tableData = [];
@@ -217,6 +249,12 @@
               break;
 
             case 'elementSelectField':
+              if ('limit' in fieldData.config && fieldData.config.limit === 1) {
+                initNull();
+              } else {
+                initArrayEmpty();
+              }
+
               let onElementChangeUpdateHidden = function(event) {
                 let elementHiddenFields = subfield.find('input[type=hidden]');
                 let elements = [];
@@ -241,7 +279,7 @@
               const observer = new MutationObserver(function(mutations) {
                 // For the sake of...observation...let's output the mutation to console to see how this all works
                 mutations.forEach(function(mutation) {
-                    onElementChangeUpdateHidden(mutation, true);
+                  onElementChangeUpdateHidden(mutation, true);
                 });
               });
               observer.observe(subfield[0], {
@@ -251,12 +289,16 @@
               break;
 
             case 'groupField':
+              initNull();
+
               subfield.change(function(event) {
                 updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
               });
               break;
 
             case 'lightswitchField':
+              initBoolFalse();
+
               //  on switched lightswitch
               subfield.change(function(event) {
                 updateHidden(fieldData.key, subfield.hasClass('on'), hiddenField);
@@ -264,12 +306,16 @@
               break;
 
             case 'multiplyField':
+              initNull();
+
               subfield.change(function(event) {
                 updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
               });
               break;
 
             case 'multiselectField':
+              initArrayEmpty();
+
               //	on selection-change
               subfield.change(function(event) {
                 updateHidden(fieldData.key, subfield.val(), hiddenField);
@@ -277,6 +323,8 @@
               break;
 
             case 'passwordField':
+              initTextEmpty();
+
               //	on anything typed into the password field
               subfield.keyup(function(event) {
                 updateHidden(fieldData.key, subfield.val(), hiddenField);
@@ -284,6 +332,8 @@
               break;
 
             case 'radioGroupField':
+              initTextEmpty();
+
               //	on selection-change
               subfieldContainer.change(function(event) {
                 let selectedRadio = $(subfieldContainer.find('input[type=radio]:checked')).get(0);
@@ -292,6 +342,8 @@
               break;
 
             case 'selectField':
+              initTextEmpty();
+
               //	on selection-change
               subfield.change(function(event) {
                 updateHidden(fieldData.key, subfield.val(), hiddenField);
@@ -299,6 +351,8 @@
               break;
 
             case 'textareaField':
+              initTextEmpty();
+
               //	on anything typed into the textarea
               subfield.keyup(function(event) {
                 updateHidden(fieldData.key, subfield.val(), hiddenField);
@@ -306,6 +360,8 @@
               break;
 
             case 'textField':
+              initTextEmpty();
+
               //	on anything typed into the textfield
               subfield.keyup(function(event) {
                 updateHidden(fieldData.key, subfield.val(), hiddenField);
@@ -313,6 +369,8 @@
               break;
 
             case 'timeField':
+              initTextEmpty();
+
               let timeFields = subfieldContainer.find('input[type=text]');
               if (timeFields.length) {
                 let timeField = $(timeFields.get(0));
