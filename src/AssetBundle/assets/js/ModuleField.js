@@ -100,6 +100,8 @@
           switch (fieldData.type) {
 
             case 'autosuggestField':
+              initTextEmpty();
+
               //  TODO: implement me!
               alert('Field type "' + fieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
               break;
