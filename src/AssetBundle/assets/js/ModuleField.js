@@ -56,28 +56,28 @@
         };
 
         // init field with empty string
-        const initTextEmpty = function() {
+        const initTextEmpty = function(fieldData, hiddenField) {
           if (_this.options.init) {
             updateHidden(fieldData.key, '', hiddenField);
           }
         };
 
         // init field with bool false
-        const initBoolFalse = function() {
+        const initBoolFalse = function(fieldData, hiddenField) {
           if (_this.options.init) {
             updateHidden(fieldData.key, false, hiddenField);
           }
         };
 
         // init field with empty array
-        const initArrayEmpty = function() {
+        const initArrayEmpty = function(fieldData, hiddenField) {
           if (_this.options.init) {
             updateHidden(fieldData.key, [], hiddenField);
           }
         };
 
         // init field with null
-        const initNull = function() {
+        const initNull = function(fieldData, hiddenField) {
           if (_this.options.init) {
             updateHidden(fieldData.key, null, hiddenField);
           }
@@ -100,14 +100,14 @@
           switch (fieldData.type) {
 
             case 'autosuggestField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               //  TODO: implement me!
               alert('Field type "' + fieldData.type + '" needs to be implemented in ModuleField.js! Please do so before using that field type.');
               break;
 
             case 'checkboxField':
-              initBoolFalse();
+              initBoolFalse(fieldData, hiddenField);
 
               //  on de-/selected checkbox
               subfield.change(function(event) {
@@ -116,7 +116,7 @@
               break;
 
             case 'checkboxSelectField':
-              initArrayEmpty();
+              initArrayEmpty(fieldData, hiddenField);
 
               //	on de/-selected checkboxes
               subfieldContainer.change(function(event) {
@@ -133,7 +133,7 @@
               break;
 
             case 'colorField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               let colorTextFields = subfieldContainer.find('input[type=text]');
               if (colorTextFields.length) {
@@ -151,7 +151,7 @@
               break;
 
             case 'dateField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               let dateFields = subfieldContainer.find('input[type=text]');
               if (dateFields.length) {
@@ -169,7 +169,7 @@
               break;
 
             case 'dateTimeField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               let dateTimeFields = subfieldContainer.find('input[type=text]');
               if (dateTimeFields.length) {
@@ -192,7 +192,7 @@
               break;
 
             case 'editableTableField':
-              initArrayEmpty();
+              initArrayEmpty(fieldData, hiddenField);
 
               const onTableChangeUpdateHidden = function() {
                 //  determine data of table-rows
@@ -252,9 +252,9 @@
 
             case 'elementSelectField':
               if ('limit' in fieldData.config && fieldData.config.limit === 1) {
-                initNull();
+                initNull(fieldData, hiddenField);
               } else {
-                initArrayEmpty();
+                initArrayEmpty(fieldData, hiddenField);
               }
 
               let onElementChangeUpdateHidden = function(event) {
@@ -291,7 +291,7 @@
               break;
 
             case 'groupField':
-              initNull();
+              initNull(fieldData, hiddenField);
 
               subfield.change(function(event) {
                 updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
@@ -299,7 +299,7 @@
               break;
 
             case 'lightswitchField':
-              initBoolFalse();
+              initBoolFalse(fieldData, hiddenField);
 
               //  on switched lightswitch
               subfield.change(function(event) {
@@ -308,7 +308,7 @@
               break;
 
             case 'multiplyField':
-              initNull();
+              initNull(fieldData, hiddenField);
 
               subfield.change(function(event) {
                 updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
@@ -316,7 +316,7 @@
               break;
 
             case 'multiselectField':
-              initArrayEmpty();
+              initArrayEmpty(fieldData, hiddenField);
 
               //	on selection-change
               subfield.change(function(event) {
@@ -325,7 +325,7 @@
               break;
 
             case 'passwordField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               //	on anything typed into the password field
               subfield.keyup(function(event) {
@@ -334,7 +334,7 @@
               break;
 
             case 'radioGroupField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               //	on selection-change
               subfieldContainer.change(function(event) {
@@ -344,7 +344,7 @@
               break;
 
             case 'selectField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               //	on selection-change
               subfield.change(function(event) {
@@ -353,7 +353,7 @@
               break;
 
             case 'textareaField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               //	on anything typed into the textarea
               subfield.keyup(function(event) {
@@ -362,7 +362,7 @@
               break;
 
             case 'textField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               //	on anything typed into the textfield
               subfield.keyup(function(event) {
@@ -371,7 +371,7 @@
               break;
 
             case 'timeField':
-              initTextEmpty();
+              initTextEmpty(fieldData, hiddenField);
 
               let timeFields = subfieldContainer.find('input[type=text]');
               if (timeFields.length) {
