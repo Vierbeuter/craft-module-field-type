@@ -278,13 +278,12 @@
               };
 
               //	on changed element selection
-              const observer = new MutationObserver(function(mutations) {
-                // For the sake of...observation...let's output the mutation to console to see how this all works
+              const selectFieldObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                   onElementChangeUpdateHidden(mutation, true);
                 });
               });
-              observer.observe(subfield[0], {
+              selectFieldObserver.observe(subfield[0], {
                 childList: true,
                 subtree: true,
               });
@@ -340,6 +339,26 @@
               subfieldContainer.change(function(event) {
                 let selectedRadio = $(subfieldContainer.find('input[type=radio]:checked')).get(0);
                 updateHidden(fieldData.key, $(selectedRadio).val(), hiddenField);
+              });
+              break;
+
+            case 'redactorField':
+              initTextEmpty(fieldData, hiddenField);
+
+              //	on anything typed into the richtext editor
+              subfieldContainer.keyup(function (event) {
+                updateHidden(fieldData.key, $($(event.target).closest('.redactor-in')).html(), hiddenField);
+              });
+
+              //	on changed element
+              const redactorObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                  updateHidden(fieldData.key, $($(mutation.target).closest('.redactor-in')).html(), hiddenField);
+                });
+              });
+              redactorObserver.observe(subfieldContainer[0], {
+                childList: true,
+                subtree: true,
               });
               break;
 
