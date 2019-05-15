@@ -4,24 +4,40 @@
 {# @var name string #}
 {# @var value JSON-string #}
 
-{# the actual module field value as hidden field #}
-{% include field.getTemplateRootId() ~ '/subfields/hidden.twig' with {
-    config: {
-        id: name,
-        name: name,
-        value: value,
-    }
-} only %}
+{% if safe_mode is not defined or not safe_mode %}
 
-{# all sub-fields as defined in the module field implementation #}
-{# --> we can't just dynamically call macros in Twig #}
-{# --> that's why we dynamically include other templates here (where the macros will be called) #}
-{# --> see https://stackoverflow.com/a/55970814/3773017 for more details #}
-{% for subfield in subfields %}
-    {% include field.getTemplateRootId() ~ '/subfields/' ~ subfield.getType() ~ '.twig' with {
-        config: loop.index0 == 0 ? (subfield.getConfig() | merge({
-            fieldClass: 'first'
-        })) : subfield.getConfig(),
-        field: subfield
+    {# the actual module field value as hidden field #}
+    {% include field.getTemplateRootId() ~ '/subfields/hidden.twig' with {
+        config: {
+            id: name,
+            name: name,
+            value: value,
+        }
     } only %}
-{% endfor %}
+
+    {# all sub-fields as defined in the module field implementation #}
+    {# --> we can't just dynamically call macros in Twig #}
+    {# --> that's why we dynamically include other templates here (where the macros will be called) #}
+    {# --> see https://stackoverflow.com/a/55970814/3773017 for more details #}
+    {% for subfield in subfields %}
+        {% include field.getTemplateRootId() ~ '/subfields/' ~ subfield.getType() ~ '.twig' with {
+            config: loop.index0 == 0 ? (subfield.getConfig() | merge({
+                fieldClass: 'first'
+            })) : subfield.getConfig(),
+            field: subfield
+        } only %}
+    {% endfor %}
+
+{% else %}
+
+    {% include field.getTemplateRootId() ~ '/subfields/textField.twig' with {
+        config: {
+            label: 'Module (safe-mode)',
+            id: name,
+            name: name,
+            value: value,
+            instructions: 'Something went wrong on rendering one of this module\'s sub-fields. Chances are good that someone (you eventually?) inserted some invalid data into the fields. &rarr; Please check the following JSON string and its entries for something like malformed field values (e.g. look for date strings that might not properly create `DateTime` objects and such things). Go and fix \'em.'
+        }
+    } only %}
+
+{% endif %}

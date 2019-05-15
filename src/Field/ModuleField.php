@@ -348,18 +348,26 @@ abstract class ModuleField extends Field
         $jsonVars = Json::encode($jsonVars);
         $view->registerJs("$('#{$namespacedId}-field').ModuleField(" . $jsonVars . ");");
 
+        $templateParams = [
+            'name' => $this->handle,
+            'value' => $value,
+            'field' => $this,
+            'id' => $id,
+            'namespacedId' => $namespacedId,
+            'subfields' => $subfields,
+        ];
+
         // Render the input template
-        return $view->renderTemplate(
-            $this->getInputHtmlTemplate(),
-            [
-                'name' => $this->handle,
-                'value' => $value,
-                'field' => $this,
-                'id' => $id,
-                'namespacedId' => $namespacedId,
-                'subfields' => $subfields,
-            ]
-        );
+        try {
+            return $view->renderTemplate($this->getInputHtmlTemplate(), $templateParams);
+        } catch (\Exception $e) {
+            //  in case of any exception occurs one of the subfields might not have been rendered
+            //  e.g. because of some malformed data or anything like that
+            //  --> if this happens try again, but this time in safe_mode (without the subfields)
+            $templateParams['safe_mode'] = true;
+
+            return $view->renderTemplate($this->getInputHtmlTemplate(), $templateParams);
+        }
     }
 
     /**
