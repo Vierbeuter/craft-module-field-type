@@ -18,6 +18,10 @@ class MultiSelect extends Subfield
      * @var array
      */
     private $options;
+    /**
+     * @var array
+     */
+    private $optionsAssociative;
 
     /**
      * MultiSelect constructor.
@@ -32,6 +36,13 @@ class MultiSelect extends Subfield
         parent::__construct(static::TYPE_MULTISELECT, $label, $key, $config);
 
         $this->options = $options;
+        $this->optionsAssociative = [];
+
+        foreach ($options as $option) {
+            if (isset($option['value']) && isset($option['label'])) {
+                $this->optionsAssociative[$option['value']] = $option['label'];
+            }
+        }
     }
 
     /**
@@ -50,5 +61,29 @@ class MultiSelect extends Subfield
         $config['options'] = $this->options;
 
         return $config;
+    }
+
+    /**
+     * Returns the actual subfield data for given value.
+     *
+     * This method may be overridden by any sub-class in case of the given value shall be customized.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function getData($value)
+    {
+        if (is_array($value)) {
+            return array_map(function ($optionValue) {
+                if (!empty($this->optionsAssociative[$optionValue])) {
+                    return $this->optionsAssociative[$optionValue];
+                }
+
+                return parent::getData($optionValue);
+            }, $value);
+        }
+
+        return parent::getData($value);
     }
 }

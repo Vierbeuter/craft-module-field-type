@@ -52,4 +52,22 @@ class RadioGroup extends Subfield
 
         return $config;
     }
+
+    /**
+     * Returns the actual subfield data for given value.
+     *
+     * This method may be overridden by any sub-class in case of the given value shall be customized.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function getData($value)
+    {
+        if (!empty($this->options[$value])) {
+            return $this->options[$value];
+        }
+
+        return parent::getData($value);
+    }
 }
