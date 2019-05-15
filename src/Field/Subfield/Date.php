@@ -42,4 +42,22 @@ class Date extends Subfield
 
         return $config;
     }
+
+    /**
+     * Returns the actual subfield data for given value.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function getData($value)
+    {
+        try{
+            return new \DateTime($value);
+        } catch (\Exception $e) {
+            //  just ignore malformed date
+        }
+
+        return parent::getData($value);
+    }
 }
