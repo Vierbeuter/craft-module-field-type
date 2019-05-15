@@ -46,13 +46,28 @@
           }
 
           //  update the JSON-decoded object
-          value = JSON.parse(value);
+          value = decodeJson(value);
           value[updatedKey] = updatedValue;
 
           //  update the actual input with new JSON value
           hiddenField.val(JSON.stringify(value));
           //  trigger change event to notify any listeners (like an outer group)
           hiddenField.change();
+        };
+
+        /**
+         * Decodes the given JSON string and returns the result or an empty object in case of error.
+         *
+         * @param {string} value
+         *
+         * @returns {{}|*}
+         */
+        const decodeJson = function (value) {
+          try {
+            return JSON.parse(value);
+          } catch (err) {
+            return {};
+          }
         };
 
         // init field with empty string
@@ -293,7 +308,7 @@
               initNull(fieldData, hiddenField);
 
               subfield.change(function(event) {
-                updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
+                updateHidden(fieldData.key, decodeJson(subfield.val()), hiddenField);
               });
               break;
 
@@ -310,7 +325,7 @@
               initNull(fieldData, hiddenField);
 
               subfield.change(function(event) {
-                updateHidden(fieldData.key, JSON.parse(subfield.val()), hiddenField);
+                updateHidden(fieldData.key, decodeJson(subfield.val()), hiddenField);
               });
               break;
 

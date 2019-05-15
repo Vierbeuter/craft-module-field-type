@@ -64,9 +64,9 @@ class ModuleData
      */
     protected function getModuleFieldData(ModuleField $field, $rawValue, bool $asArray = false)
     {
-        $value = Json::decode($rawValue, $asArray);
+        $value = Json::decodeIfJson($rawValue, $asArray);
 
-        if (empty($value)) {
+        if (empty($value) || is_string($value)) {
             return $asArray ? [] : null;
         }
 
