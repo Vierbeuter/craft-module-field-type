@@ -47,10 +47,30 @@ class CategoriesSelect extends ElementSelect
             }
         }
 
-        $config['elements'] = array_map(function ($catId) {
-            return \Craft::$app->categories->getCategoryById($catId);
-        }, $catIds);
+        $config['elements'] = $this->getData($catIds);
 
         return parent::configure($config, $value);
+    }
+
+    /**
+     * Returns the actual subfield data for given value.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function getData($value)
+    {
+        if (is_array($value)) {
+            return array_map(function ($catId) {
+                return \Craft::$app->categories->getCategoryById($catId);
+            }, $value);
+        }
+
+        if (is_numeric($value)) {
+            return \Craft::$app->categories->getCategoryById($value);
+        }
+
+        return parent::getData($value);
     }
 }

@@ -47,10 +47,30 @@ class UsersSelect extends ElementSelect
             }
         }
 
-        $config['elements'] = array_map(function ($userId) {
-            return \Craft::$app->users->getUserById($userId);
-        }, $userIds);
+        $config['elements'] = $this->getData($userIds);
 
         return parent::configure($config, $value);
+    }
+
+    /**
+     * Returns the actual subfield data for given value.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function getData($value)
+    {
+        if (is_array($value)) {
+            return array_map(function ($userId) {
+                return \Craft::$app->users->getUserById($userId);
+            }, $value);
+        }
+
+        if (is_numeric($value)) {
+            return \Craft::$app->users->getUserById($value);
+        }
+
+        return parent::getData($value);
     }
 }
