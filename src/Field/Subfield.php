@@ -172,4 +172,18 @@ class Subfield
             'config' => $this->getConfig(),
         ];
     }
+
+    /**
+     * Returns the actual subfield data for given value.
+     *
+     * This method may be overridden by any sub-class in case of the given value shall be customized.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function getData($value)
+    {
+        return $value;
+    }
 }

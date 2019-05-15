@@ -6,6 +6,7 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\services\Fields;
 use craft\web\View;
+use Vierbeuter\Craft\Twig\ModuleFieldsTwigExtension;
 use yii\base\Event;
 
 /**
@@ -123,5 +124,15 @@ class ModuleFields
                 }
             }
         );
+    }
+
+    /**
+     * Registers Twig extensions (containing additional filters and functions) to be available in your Twig templates.
+     *
+     * This method needs to be called within a Craft plugin's or Craft module's `init()` method.
+     */
+    public function registerTwigExtension()
+    {
+        \Craft::$app->view->registerTwigExtension(new ModuleFieldsTwigExtension());
     }
 }
