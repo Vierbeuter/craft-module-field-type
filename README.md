@@ -23,7 +23,7 @@ This library provides an easy way of **defining matrix blocks** for matrix field
 
 Its usage reduces the amount of clicks in Craft CP by moving the location of a matrix block's field definitions from CP to PHP code.
 
-[⬆️ back to top](#contents)
+⬆️ [back to top](#contents)
 
 ### I still don't get it…
 
@@ -64,7 +64,7 @@ The more matrix fields you need and the more content modules you have the more c
 
 Exactly.
 
-[⬆️ back to top](#contents)
+⬆️ [back to top](#contents)
 
 ## How to use it?
 
@@ -78,7 +78,7 @@ composer require vierbeuter/craft-module-field-type dev-develop
 
 ¹ When mentioning "plugins" we're talking about both Craft plugins *and* modules. From now on we omit the word "module" to not accidentally mix it up with content modules (which are realized using matrix blocks).
 
-[⬆️ back to top](#contents)
+⬆️ [back to top](#contents)
 
 ### PHP
 
@@ -222,7 +222,7 @@ $this->moduleFields->registerTwigExtension();
 
 That's basically everything you have to do in your PHP sources. Nothing else.
 
-[⬆️ back to top](#contents)
+⬆️ [back to top](#contents)
 
 ### Craft CMS
 
@@ -235,7 +235,7 @@ Repeat these steps for every content module aaaaaand … That's all you need to
 
 Go to **Settings &gt; Sections**, open any **Entry type** to change its field layout and **register the field `contentModules`** to that Entry type. Save it and switch back from your browser to your favorite development software again (may it be an editor or an IDE…).
 
-[⬆️ back to top](#contents)
+⬆️ [back to top](#contents)
 
 ### Twig
 
@@ -283,7 +283,7 @@ One of the templates could then look like this:
 <a href="{{ module.target.url }}">{{ module.label }}</a>
 ```
 
-[⬆️ back to top](#contents)
+⬆️ [back to top](#contents)
 
 ### That's all folks!
 
