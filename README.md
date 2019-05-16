@@ -8,7 +8,7 @@ A library for your Craft 3 plugin/module development.
 
 * [What is this?](#what-is-this)
 	* [Short version](#tell-me-in-two-sentences)
-	* [Long version](#i-still-cant-get-it)
+	* [Long version](#i-still-dont-get-it)
 * [How to use it?](#how-to-use-it)
 	* [Install dependency](#composer)
 	* [Prepare content modules](#php)
