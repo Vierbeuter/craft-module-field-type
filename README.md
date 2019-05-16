@@ -2,8 +2,6 @@
 
 A library for your Craft 3 plugin/module development.
 
-<!-- TODO: Add a quick overview of usage with `composer require …` and some short infos about what PHP classes to extend and how? -->
-
 ## Contents
 
 * [What is this?](#what-is-this)
