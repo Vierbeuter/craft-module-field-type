@@ -291,3 +291,5 @@ Congratulations. You made it! Whenever you need to remove, change or add any con
 ## License
 
 This library is licensed under the terms of the **MIT license**. See also the project's [license file](./LICENSE).
+
+⬆️ [back to top](#contents)
