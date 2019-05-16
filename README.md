@@ -14,6 +14,7 @@ A library for your Craft 3 plugin/module development.
 	* [Prepare content modules](#php)
 	* [Configure section(s)](#craft-cms)
 	* [Implement templates](#twig)
+* [License](#license)
 
 ## What is this?
 
@@ -288,3 +289,7 @@ One of the templates could then look like this:
 ### That's all folks!
 
 Congratulations. You made it! Whenever you need to remove, change or add any content module related sub-fields, you now don't have to do that in Craft CP. You can do that directly in your PHP sources.
+
+## License
+
+This library is licensed under the terms of the **MIT license**. See also the project's [license file](./LICENSE).
