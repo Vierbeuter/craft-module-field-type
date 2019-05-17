@@ -181,7 +181,7 @@ class Teaser extends ModuleField
 
 Open your Craft plugin class (which is `plugins/your-awesome-plugin/src/YourAwesomePlugin.php` in the previously shown sample file tree). We have to register the module fields and features provided by this lib.
 
-Then add following import and property the class:
+Then add following import and property to the class:
 
 ```php
 use Vierbeuter\Craft\Field\ModuleFields;
@@ -230,7 +230,7 @@ Log into the admin panel (Craft CP), navigate to **Settings &gt; Fields** and ad
 Add a **new block** to the matrix field. Name it `Image Gallery`, for example. Add just a **single field**, name it whatever you want and **select the field type** `ImageGallery`.  
 Keep in mind the matrix block's handle which is `imageGallery` in this case. We'll need that very soon.
 
-Repeat these steps for every content module aaaaaand … That's all you need to do in the matrix field.
+Repeat these steps for every content module aaaaaand … That's all you need to do in the matrix field. Save it.
 
 Go to **Settings &gt; Sections**, open any **Entry type** to change its field layout and **register the field `contentModules`** to that Entry type. Save it and switch back from your browser to your favorite development software again (may it be an editor or an IDE…).
 
@@ -281,6 +281,8 @@ One of the templates could then look like this:
 <p>{{ module.text }}</p>
 <a href="{{ module.target.url }}">{{ module.label }}</a>
 ```
+
+Implement all other templates accordingly.
 
 ⬆️ [back to top](#contents)
 
