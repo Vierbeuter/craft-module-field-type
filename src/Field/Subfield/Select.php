@@ -26,7 +26,7 @@ class Select extends Subfield
      * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $options associative array of available options, the array's key-value relations correspond to the
      *     options' values and their labels
-     * @param array $config custom config array which overrides the resulting config of `initConfig()` method
+     * @param array $config custom config array being passed down to the subfield's Twig template
      * @param array $rules custom validation rules to be applied to the subfield
      */
     public function __construct(string $label, string $key, array $options, array $config = [], array $rules = [])

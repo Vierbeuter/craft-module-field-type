@@ -28,7 +28,7 @@ class Redactor extends Subfield
      * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param string $redactorConfig the config file (like "Simple.json" or "Standard.json") to define buttons and
      *     behaviour of the richtext editor
-     * @param array $config custom config array which overrides the resulting config of `initConfig()` method
+     * @param array $config custom config array being passed down to the subfield's Twig template
      * @param array $rules custom validation rules to be applied to the subfield
      */
     public function __construct(string $label, string $key, string $redactorConfig, array $config = [], array $rules = [])
