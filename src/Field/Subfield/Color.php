@@ -20,10 +20,11 @@ class Color extends Subfield
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
      * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
+     * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $label, string $key, array $config = [])
+    public function __construct(string $label, string $key, array $config = [], array $rules = [])
     {
-        parent::__construct(static::TYPE_COLOR, $label, $key, $config);
+        parent::__construct(static::TYPE_COLOR, $label, $key, $config, $rules);
     }
 
     /**

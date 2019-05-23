@@ -56,6 +56,10 @@ class Subfield
      * @var array
      */
     protected $config;
+    /**
+     * @var array
+     */
+    protected $rules;
 
     /**
      * Subfield constructor.
@@ -64,8 +68,9 @@ class Subfield
      * @param string $label the subfield's label to be shown in Craft CP (pass empty string to omit)
      * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
+     * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $type, string $label, string $key, array $config = [])
+    public function __construct(string $type, string $label, string $key, array $config = [], array $rules = [])
     {
         $this->type = $type;
         $this->key = StringHelper::camelCase($key);
@@ -73,6 +78,9 @@ class Subfield
         $this->config = array_merge(array_filter([
             'label' => $label,
         ]), $config);
+        $this->rules = array_merge(array_filter([
+            !empty($config['required']) ? 'required' : null,
+        ]), $rules);
     }
 
     /**
@@ -156,6 +164,16 @@ class Subfield
     public function getConfig(): array
     {
         return $this->config;
+    }
+
+    /**
+     * Returns the validation rules.
+     *
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return $this->rules;
     }
 
     /**

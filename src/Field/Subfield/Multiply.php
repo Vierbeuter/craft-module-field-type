@@ -19,8 +19,9 @@ class Multiply extends Group
      * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param int $times number of times the set of inner subfields has to be multiplied
      * @param Subfield[] $subfields group of inner subfields that is repeatable
+     * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $key, int $times, array $subfields)
+    public function __construct(string $key, int $times, array $subfields, array $rules = [])
     {
         $groups = [];
         for ($i = 1; $i <= $times; $i++) {
@@ -29,6 +30,6 @@ class Multiply extends Group
             }, $subfields));
         }
 
-        parent::__construct($key, $groups, Subfield::TYPE_MULTIPLY);
+        parent::__construct($key, $groups, Subfield::TYPE_MULTIPLY, $rules);
     }
 }

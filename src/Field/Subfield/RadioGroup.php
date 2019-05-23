@@ -27,10 +27,11 @@ class RadioGroup extends Subfield
      * @param array $options associative array of available radios, the array's key-value relations correspond to the
      *     radio options' input values and their labels
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
+     * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $label, string $key, array $options, array $config = [])
+    public function __construct(string $label, string $key, array $options, array $config = [], array $rules = [])
     {
-        parent::__construct(static::TYPE_RADIOGROUP, $label, $key, $config);
+        parent::__construct(static::TYPE_RADIOGROUP, $label, $key, $config, $rules);
 
         $this->options = $options;
     }

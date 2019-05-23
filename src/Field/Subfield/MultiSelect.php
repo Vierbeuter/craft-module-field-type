@@ -30,10 +30,11 @@ class MultiSelect extends Subfield
      * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param array $options list of available options, each entry is an array with the keys `label` and `value`
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
+     * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $label, string $key, array $options, array $config = [])
+    public function __construct(string $label, string $key, array $options, array $config = [], array $rules = [])
     {
-        parent::__construct(static::TYPE_MULTISELECT, $label, $key, $config);
+        parent::__construct(static::TYPE_MULTISELECT, $label, $key, $config, $rules);
 
         $this->options = $options;
         $this->optionsAssociative = [];

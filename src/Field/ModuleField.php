@@ -7,6 +7,7 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\Json;
 use Vierbeuter\Craft\AssetBundle\ModuleFieldAsset;
+use Vierbeuter\Craft\Validator\SubfieldValidator;
 use yii\db\Schema;
 
 /**
@@ -423,5 +424,43 @@ abstract class ModuleField extends Field
     public function getTemplateRootId(): string
     {
         return ModuleFields::TEMPLATE_ROOT_ID;
+    }
+
+    /**
+     * Returns the validation rules for an element with this field.
+     *
+     * Rules should be defined in the array syntax required by [[\yii\base\Model::rules()]],
+     * with one difference: you can skip the first argument (the attribute list).
+     *
+     * ```php
+     * [
+     *     // explicitly specify the field attribute
+     *     [$this->handle, 'string', 'min' => 3, 'max' => 12],
+     *     // skip the field attribute
+     *     ['string', 'min' => 3, 'max' => 12],
+     *     // you can only pass the validator class name/handle if not setting any params
+     *     'bool',
+     * ]
+     * ```
+     *
+     * To register validation rules that should only be enforced for _live_ elements,
+     * set the rule [scenario](https://www.yiiframework.com/doc/guide/2.0/en/structure-models#scenarios)
+     * to `live`:
+     *
+     * ```php
+     * [
+     *     ['string', 'min' => 3, 'max' => 12, 'on' => \craft\base\Element::SCENARIO_LIVE],
+     * ]
+     * ```
+     *
+     * @return array
+     */
+    public function getElementValidationRules(): array
+    {
+        $rules = parent::getElementValidationRules();
+
+        $rules[] = [SubfieldValidator::class, 'field' => $this, 'subfields' => $this->getSubfields()];
+
+        return $rules;
     }
 }

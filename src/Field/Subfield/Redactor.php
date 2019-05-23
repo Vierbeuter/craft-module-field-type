@@ -29,10 +29,11 @@ class Redactor extends Subfield
      * @param string $redactorConfig the config file (like "Simple.json" or "Standard.json") to define buttons and
      *     behaviour of the richtext editor
      * @param array $config custom config array which overrides the resulting config of `initConfig()` method
+     * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $label, string $key, string $redactorConfig, array $config = [])
+    public function __construct(string $label, string $key, string $redactorConfig, array $config = [], array $rules = [])
     {
-        parent::__construct(static::TYPE_REDACTOR, '', $key, $config);
+        parent::__construct(static::TYPE_REDACTOR, '', $key, $config, $rules);
 
         //  we need a label field instead of passing it to the parent constructor because Redactor field implementation
         //  doesn't like to get a label via config object (that causes an error) --> so, let's just walk around a bit

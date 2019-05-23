@@ -25,10 +25,11 @@ class Group extends Subfield
      * @param string $key the field name as used in the ModuleField's value object (ensure it's in "camelCase")
      * @param Subfield[] $subfields group of inner subfields that is repeatable
      * @param string $type field type to override the default one with for customization
+     * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $key, array $subfields, $type = Subfield::TYPE_GROUP)
+    public function __construct(string $key, array $subfields, $type = Subfield::TYPE_GROUP, array $rules = [])
     {
-        parent::__construct($type, '', $key);
+        parent::__construct($type, '', $key, [], $rules);
         $this->subfields = $subfields;
     }
 
