@@ -7,6 +7,7 @@ A library for your Craft 3 plugin/module development.
 * [What is this?](#what-is-this)
 	* [Short version](#tell-me-in-two-sentences)
 	* [Long version](#i-still-dont-get-it)
+* [What's in it for me?](#so-whats-in-it-for-me)
 * [How to use it?](#how-to-use-it)
 	* [Install dependency](#composer)
 	* [Prepare content modules](#php)
@@ -62,6 +63,15 @@ The more matrix fields you need and the more content modules you have the more c
 #### And that's the point where this library comes in?
 
 Exactly.
+
+⬆️ [back to top](#contents)
+
+## So, what's in it for me?
+
+* **clear definition** of which matrix blocks have which subfields in your PHP code &rarr; no (well, "no" … let's say: less) annoying clicking through the CP
+* **every change** of a module's fields is recorded **in your VCS** (Git, Mercurial etc.) while being easier tracable than it would be in Craft's `project.yaml` (since that config file can grow really large)
+* **less** (or at least easier resolvable) merge **conflicts** in the `project.yaml` since the matrix block fields are defined somewhere else (in your PHP code)
+* **custom validation rules** for standard field types &rarr; e.g. you could validate a text-field value by applying a `number` rule or your `myproject\validators\MyCustomValidator` which checks the input value's correct spelling, but only on full-moon nights or some crazy shit … it's completely in your hands
 
 ⬆️ [back to top](#contents)
 
