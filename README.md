@@ -162,6 +162,10 @@ class ImageGallery extends ModuleField
         return [
             new AssetsSelect(\Craft::t('yourawesomeplugin', 'Images'), 'images', [
                 'viewMode' => 'large',
+            ], [
+                //'validationRule',
+                //'otherValidationRule',
+                //['yetAnotherRule', 'with' => 'parameter'],
             ]),
         ];
     }
@@ -194,8 +198,14 @@ class Teaser extends ModuleField
         return [
             new AssetSelect(\Craft::t('yourawesomeplugin', 'Teaser Image'), 'image', [
                 'viewMode' => 'large',
+            ], [
+                //'myproject\validators\MyCustomValidator',
             ]),
-            new Textarea(\Craft::t('yourawesomeplugin', 'Teaser Text'), 'text'),
+            new Textarea(\Craft::t('yourawesomeplugin', 'Teaser Text'), 'text', [
+                'required' => true,
+            ], [
+                ['string', 'min' => 80, 'max' => 150],
+            ]),
             new EntrySelect(\Craft::t('yourawesomeplugin', 'Button Target'), 'target'),
             new Text(\Craft::t('yourawesomeplugin', 'Button Label'), 'label'),
         ];
@@ -208,7 +218,8 @@ class Teaser extends ModuleField
 ##### Some last notes about the code above
 
 * You get an overview of all available `Subfield` implementations [&rarr; here](https://github.com/Vierbeuter/craft-module-field-type/tree/develop/src/Field/Subfield).
-* You can pass an optional `config` array to each `Subfield` constructor (always the last parameter). That `config` array will then be passed down to the [&rarr; field's template](https://github.com/craftcms/cms/tree/develop/src/templates/_includes/forms).
+* You can pass an optional `config` array to each `Subfield` constructor (always the one before the last parameter). That `config` array will then be passed down to the [&rarr; field's template](https://github.com/craftcms/cms/tree/develop/src/templates/_includes/forms).
+* You can pass an optional `rules` array to each `Subfield` constructor (always the last parameter). That `rules` array can contain validation rules to be applied to a subfield's value. It's even possible to define custom validation rules.
 * The module classes extend the class `ModuleField` as you maybe noticed … Why it's "field" and not just "module", you ask? – Well, we're building custom field types actually and not custom matrix blocks.
 
 #### Register content module classes
