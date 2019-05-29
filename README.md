@@ -67,13 +67,15 @@ Exactly.
 
 ### I'd like to see some results…
 
-Depending on this library you can make this:
+When using this library you can make this:
 
 ![Content modules when not using this lib](./docs/matrix-block-fields-then.png)
 
 become this:
 
 ![Content modules when using this lib](./docs/matrix-block-fields-now.png)
+
+and this:
 
 ```php
 // …
@@ -85,6 +87,8 @@ return [
 // …
 ```
 
+Basically, that's it.
+
 ### Summing up
 
 Let us sum up the lib's benefits:
@@ -95,7 +99,7 @@ Let us sum up the lib's benefits:
 
 Furthermore, you can define:
 
-* **custom validation rules** for standard field types &rarr; e.g. you could validate a text-field value by applying a `number` rule or your `myproject\validators\MyCustomValidator` which checks the input value's correct spelling, but only on full-moon nights or some crazy shit … it's completely in your hands
+* **custom validation rules** for standard field types &rarr; e.g. you could validate a text-field value by applying a `number` rule or your `myproject\validators\MyCustomValidator` which checks the input value's correct spelling, but only on full-moon nights or some crazy shit … it's completely in your hands (see [code samples](#php) below)
 
 ⬆️ [back to top](#contents)
 
