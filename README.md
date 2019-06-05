@@ -75,7 +75,11 @@ become this:
 
 ![Content modules when using this lib](./docs/matrix-block-fields-now.png)
 
-and this:
+where this custom field type is selected:
+
+![Custom field type for content module field](./docs/module-field-type.png)
+
+and while the custom field type's implementation looks will like this (excerpt):
 
 ```php
 // …
@@ -93,7 +97,7 @@ Basically, that's it.
 
 Let us sum up the lib's benefits:
 
-* **clear definition** of which matrix blocks have which subfields in your PHP code &rarr; no (well, "no" … let's say: less) annoying clicking through the CP
+* **fields of matrix blocks are moved** from Craft's CP to PHP resulting in a **clear definition** of which matrix blocks have which subfields in your Craft plugin/module code &rarr; no (well, "no" … let's say: less) annoying clicking through the CP
 * **every change** of a module's fields is recorded **in your VCS** (Git, Mercurial etc.) while being easier tracable than it would be in Craft's `project.yaml` (since that config file can grow really large)
 * **less** (or at least easier resolvable) merge **conflicts** in the `project.yaml` since the matrix block fields are defined somewhere else (in your PHP code)
 
