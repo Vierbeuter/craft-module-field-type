@@ -75,11 +75,11 @@ become this:
 
 ![Content modules when using this lib](./docs/matrix-block-fields-now.png)
 
-where this custom field type is selected:
+where the field type is something like this:
 
 ![Custom field type for content module field](./docs/module-field-type.png)
 
-and while the custom field type's implementation looks will like this (excerpt):
+and the implementation of above selected custom field type looks like this (excerpt):
 
 ```php
 // …
