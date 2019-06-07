@@ -109,7 +109,11 @@ abstract class ElementSelect extends Subfield
             return $this->getElementById($value->id);
         }
 
-        throw new \InvalidArgumentException('Expected $data of type "' . Entry::class . '", but got "' . gettype($value) . '" instead.');
+        if (empty($value)) {
+            return null;
+        }
+
+        throw new \InvalidArgumentException('Expected $data of type "' . Element::class . '", but got "' . gettype($value) . '" instead.');
     }
 
     /**
