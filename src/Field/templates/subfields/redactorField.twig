@@ -1,7 +1,7 @@
 <div class="field">
     {% if config.label is not empty %}
         <div class="heading">
-            <label for="{{ config.id }}" >{{ config.label }}</label>
+            <label for="{{ config.id }}" {% if config.required is defined and config.required %}class="required"{% endif %}>{{ config.label }}</label>
         </div>
     {% endif %}
     <div id="{{ config.id }}-field">
