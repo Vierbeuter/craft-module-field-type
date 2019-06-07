@@ -4,6 +4,7 @@ namespace Vierbeuter\Craft\Field\Subfield;
 
 use craft\base\ElementInterface;
 use craft\redactor\Field;
+use craft\redactor\FieldData;
 use Vierbeuter\Craft\Field\Subfield;
 
 /**
@@ -67,5 +68,48 @@ class Redactor extends Subfield
         //  pass resulting HTML markup to config array to later simply grab it in the template
         $this->config['label'] = $this->label;
         $this->config['markup'] = $redactor->getInputHtml($value, $element);
+    }
+
+    /**
+     * Normalizes the given subfield value after being loaded.
+     *
+     * It's gonna be called in the "outer" field's `normalizeValue()` method.
+     *
+     * @param $value
+     * @param \craft\base\ElementInterface|null $element
+     *
+     * @return string|mixed
+     *
+     * @see \Vierbeuter\Craft\Field\ModuleField::normalizeValue()
+     * @see \craft\base\FieldInterface::normalizeValue()
+     */
+    public function normalizeValue($value, ElementInterface $element = null)
+    {
+        $value = new FieldData(empty($value) ? '' : $value);
+        $redactor = new Field($this->config);
+        $value = $redactor->normalizeValue($value, $element);
+
+        return $value;
+    }
+
+    /**
+     * Serializes the given subfield value before being stored.
+     *
+     * It's gonna be called in the "outer" field's `serializeValue()` method.
+     *
+     * @param $value
+     * @param \craft\base\ElementInterface|null $element
+     *
+     * @return string|mixed
+     *
+     * @see \craft\base\FieldInterface::serializeValue()
+     */
+    public function serializeValue($value, ElementInterface $element = null)
+    {
+        $value = new FieldData(empty($value) ? '' : $value);
+        $redactor = new Field($this->config);
+        $value = $redactor->serializeValue($value, $element);
+
+        return $value;
     }
 }
