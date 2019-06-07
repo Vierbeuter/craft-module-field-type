@@ -34,12 +34,10 @@ class SubfieldValidator extends Validator
      */
     protected function validateValue($value)
     {
-        /** @var \stdClass $decodedValue */
-        $decodedValue = Json::decodeIfJson($value, false);
         $model = new Model();
 
-        if (is_string($decodedValue)) {
-            $message = 'Value of field "{field}" is expected to be of type JSON-string, but isn\'t. "{value}"';
+        if (!$value instanceof \stdClass) {
+            $message = 'Value of field "{field}" is expected to be of type stdClass, but isn\'t. "{value}"';
             throw new \InvalidArgumentException($this->formatMessage($message, [
                 'field' => $this->field->handle,
                 'value' => $value,
@@ -48,8 +46,8 @@ class SubfieldValidator extends Validator
 
         //  validate all subfields values
         foreach ($this->subfields as $subfield) {
-            if (isset($decodedValue->{$subfield->getKey()})) {
-                $subfieldValue = $decodedValue->{$subfield->getKey()};
+            if (isset($value->{$subfield->getKey()})) {
+                $subfieldValue = $value->{$subfield->getKey()};
 
                 //  apply validation rules on current subfield
                 foreach ($subfield->getRules() as $rule) {

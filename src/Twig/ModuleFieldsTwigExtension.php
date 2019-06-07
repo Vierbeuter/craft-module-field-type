@@ -61,12 +61,11 @@ class ModuleFieldsTwigExtension extends AbstractExtension
      * Returns the module data for given matrix block (respectively for given module).
      *
      * @param \craft\elements\MatrixBlock $matrixBlock
-     * @param bool $asArray
      *
-     * @return array|\stdClass|null
+     * @return \stdClass|null
      */
-    public function getModuleData(MatrixBlock $matrixBlock, bool $asArray = false)
+    public function getModuleData(MatrixBlock $matrixBlock)
     {
-        return $this->moduleData->getModuleData($matrixBlock, $asArray);
+        return $this->moduleData->getModuleData($matrixBlock);
     }
 }

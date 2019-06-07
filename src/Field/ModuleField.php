@@ -89,6 +89,14 @@ abstract class ModuleField extends Field
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
+        $value = is_string($value) ? Json::decodeIfJson($value, false) : $value;
+
+        if ($value instanceof \stdClass) {
+            foreach ($this->getSubfields() as $subfield) {
+                $value->{$subfield->getKey()} = $subfield->normalizeValue($value->{$subfield->getKey()}, $element);
+            }
+        }
+
         return $value;
     }
 
@@ -106,7 +114,13 @@ abstract class ModuleField extends Field
      */
     public function serializeValue($value, ElementInterface $element = null)
     {
-        return parent::serializeValue($value, $element);
+        if ($value instanceof \stdClass) {
+            foreach ($this->getSubfields() as $subfield) {
+                $value->{$subfield->getKey()} = $subfield->serializeValue($value->{$subfield->getKey()}, $element);
+            }
+        }
+
+        return Json::encode($value);
     }
 
     /**
@@ -331,8 +345,7 @@ abstract class ModuleField extends Field
         //  determine and initialize subfields
         $subfields = $this->getSubfields();
         foreach ($subfields as $subfield) {
-            $decodedValue = Json::decodeIfJson($value, false);
-            $subfield->init($this->handle, $element, $namespacedId, is_string($decodedValue) ? null : $decodedValue);
+            $subfield->init($this->handle, $element, $namespacedId, $value);
         }
 
         // Variables to pass down to our field JavaScript to let it namespace properly
@@ -351,7 +364,7 @@ abstract class ModuleField extends Field
 
         $templateParams = [
             'name' => $this->handle,
-            'value' => $value,
+            'value' => empty($value) ? '{}' : Json::encode($value),
             'field' => $this,
             'id' => $id,
             'namespacedId' => $namespacedId,
