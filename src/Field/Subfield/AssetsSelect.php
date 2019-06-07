@@ -2,6 +2,8 @@
 
 namespace Vierbeuter\Craft\Field\Subfield;
 
+use craft\base\Element;
+
 /**
  * The AssetsSelect class is a subfield implementation of type `elementSelect` using multiple Asset objects.
  *
@@ -54,24 +56,14 @@ class AssetsSelect extends ElementSelect
     }
 
     /**
-     * Returns the actual subfield data for given value.
+     * Returns the element for given ID.
      *
-     * @param mixed $value
+     * @param int $id
      *
-     * @return mixed
+     * @return \craft\base\Element|null
      */
-    public function getData($value)
+    protected function getElementById(int $id): ?Element
     {
-        if (is_array($value)) {
-            return array_map(function ($assetId) {
-                return \Craft::$app->assets->getAssetById($assetId);
-            }, $value);
-        }
-
-        if (is_numeric($value)) {
-            return \Craft::$app->assets->getAssetById($value);
-        }
-
-        return parent::getData($value);
+        return \Craft::$app->assets->getAssetById($id);
     }
 }

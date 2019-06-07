@@ -2,6 +2,8 @@
 
 namespace Vierbeuter\Craft\Field\Subfield;
 
+use craft\base\Element;
+
 /**
  * The CategoriesSelect class is a subfield implementation of type `elementSelect` using multiple Category objects.
  *
@@ -54,24 +56,14 @@ class CategoriesSelect extends ElementSelect
     }
 
     /**
-     * Returns the actual subfield data for given value.
+     * Returns the element for given ID.
      *
-     * @param mixed $value
+     * @param int $id
      *
-     * @return mixed
+     * @return \craft\base\Element|null
      */
-    public function getData($value)
+    protected function getElementById(int $id): ?Element
     {
-        if (is_array($value)) {
-            return array_map(function ($catId) {
-                return \Craft::$app->categories->getCategoryById($catId);
-            }, $value);
-        }
-
-        if (is_numeric($value)) {
-            return \Craft::$app->categories->getCategoryById($value);
-        }
-
-        return parent::getData($value);
+        return \Craft::$app->categories->getCategoryById($id);
     }
 }

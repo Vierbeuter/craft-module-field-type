@@ -2,6 +2,8 @@
 
 namespace Vierbeuter\Craft\Field\Subfield;
 
+use craft\base\Element;
+
 /**
  * The UsersSelect class is a subfield implementation of type `elementSelect` using multiple User objects.
  *
@@ -73,5 +75,17 @@ class UsersSelect extends ElementSelect
         }
 
         return parent::getData($value);
+    }
+
+    /**
+     * Returns the element for given ID.
+     *
+     * @param int $id
+     *
+     * @return \craft\base\Element|null
+     */
+    protected function getElementById(int $id): ?Element
+    {
+        return \Craft::$app->users->getUserById($id);
     }
 }
