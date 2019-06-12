@@ -118,7 +118,9 @@ abstract class ModuleField extends Field
     {
         if ($value instanceof \stdClass) {
             foreach ($this->getSubfields() as $subfield) {
-                $value->{$subfield->getKey()} = $subfield->serializeValue($value->{$subfield->getKey()}, $element);
+                if (isset($value->{$subfield->getKey()})) {
+                    $value->{$subfield->getKey()} = $subfield->serializeValue($value->{$subfield->getKey()}, $element);
+                }
             }
         }
 
