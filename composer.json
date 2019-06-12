@@ -1,5 +1,6 @@
 {
     "name": "vierbeuter/craft-module-field-type",
+    "description": "PHP library for Craft CMS 3 to simplify usage of matrix blocks as content modules",
     "type": "library",
     "license": "MIT",
     "require": {
