@@ -3,7 +3,6 @@
 namespace Vierbeuter\Craft\Field\Subfield;
 
 use craft\base\Element;
-use craft\elements\Entry;
 
 /**
  * The EntriesSelect class is a subfield implementation of type `elementSelect` using multiple Entry objects.

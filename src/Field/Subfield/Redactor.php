@@ -32,8 +32,13 @@ class Redactor extends Subfield
      * @param array $config custom config array being passed down to the subfield's Twig template
      * @param array $rules custom validation rules to be applied to the subfield
      */
-    public function __construct(string $label, string $key, string $redactorConfig, array $config = [], array $rules = [])
-    {
+    public function __construct(
+        string $label,
+        string $key,
+        string $redactorConfig,
+        array $config = [],
+        array $rules = []
+    ) {
         parent::__construct(static::TYPE_REDACTOR, '', $key, $config, $rules);
 
         //  we need a label field instead of passing it to the parent constructor because Redactor field implementation

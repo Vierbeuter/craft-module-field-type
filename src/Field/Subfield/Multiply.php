@@ -2,7 +2,6 @@
 
 namespace Vierbeuter\Craft\Field\Subfield;
 
-use craft\helpers\Json;
 use Vierbeuter\Craft\Field\Subfield;
 
 /**

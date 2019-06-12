@@ -53,7 +53,7 @@ class Date extends Subfield
      */
     public function getData($value)
     {
-        try{
+        try {
             return new \DateTime($value);
         } catch (\Exception $e) {
             //  just ignore malformed date
