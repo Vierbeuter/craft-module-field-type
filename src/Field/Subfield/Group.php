@@ -111,4 +111,56 @@ class Group extends Subfield
 
         return $toArray;
     }
+
+    /**
+     * Normalizes the given subfield value after being loaded.
+     *
+     * It's gonna be called in the "outer" field's `normalizeValue()` method.
+     *
+     * @param $value
+     * @param \craft\base\ElementInterface|null $element
+     *
+     * @return string|mixed
+     *
+     * @see \Vierbeuter\Craft\Field\ModuleField::normalizeValue()
+     * @see \craft\base\FieldInterface::normalizeValue()
+     */
+    public function normalizeValue($value, ElementInterface $element = null)
+    {
+        if ($value instanceof \stdClass) {
+            foreach ($this->getSubfields() as $subfield) {
+                if (isset($value->{$subfield->getKey()})) {
+                    $value->{$subfield->getKey()} = $subfield->normalizeValue($value->{$subfield->getKey()}, $element);
+                }
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Serializes the given subfield value before being stored.
+     *
+     * It's gonna be called in the "outer" field's `serializeValue()` method.
+     *
+     * @param $value
+     * @param \craft\base\ElementInterface|null $element
+     *
+     * @return string|mixed
+     *
+     * @see \Vierbeuter\Craft\Field\ModuleField::serializeValue()
+     * @see \craft\base\FieldInterface::serializeValue()
+     */
+    public function serializeValue($value, ElementInterface $element = null)
+    {
+        if ($value instanceof \stdClass) {
+            foreach ($this->getSubfields() as $subfield) {
+                if (isset($value->{$subfield->getKey()})) {
+                    $value->{$subfield->getKey()} = $subfield->serializeValue($value->{$subfield->getKey()}, $element);
+                }
+            }
+        }
+
+        return $value;
+    }
 }
