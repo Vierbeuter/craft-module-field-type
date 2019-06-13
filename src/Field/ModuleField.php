@@ -19,7 +19,7 @@ abstract class ModuleField extends Field
 {
 
     /**
-     * Returns all sub-fields for this module field.
+     * Returns all subfields for this module field.
      *
      * @return \Vierbeuter\Craft\Field\Subfield[]
      */

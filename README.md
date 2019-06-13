@@ -161,7 +161,7 @@ class ImageGallery extends ModuleField
 {
 
     /**
-     * Returns all sub-fields for this module field.
+     * Returns all subfields for this module field.
      *
      * @return \Vierbeuter\Craft\Field\Subfield[]
      */
@@ -197,7 +197,7 @@ class Teaser extends ModuleField
 {
 
     /**
-     * Returns all sub-fields for this module field.
+     * Returns all subfields for this module field.
      *
      * @return \Vierbeuter\Craft\Field\Subfield[]
      */
@@ -259,7 +259,7 @@ $this->moduleFields = new ModuleFields([
     Teaser::class,
     // …
 ]);
-// register the lib's templates directory (for being able to render the sub-fields)
+// register the lib's templates directory (for being able to render the subfields)
 $this->moduleFields->registerTemplatesDir();
 ```
 
@@ -341,7 +341,7 @@ Implement all other templates accordingly.
 
 ### That's all folks!
 
-Congratulations. You made it! Whenever you need to remove, change or add any content module related sub-fields, you now don't have to do that in Craft CP. You can do that directly in your PHP sources.
+Congratulations. You made it! Whenever you need to remove, change or add any content module related subfields, you now don't have to do that in Craft CP. You can do that directly in your PHP sources.
 
 ## License
 

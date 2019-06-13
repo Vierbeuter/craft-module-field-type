@@ -41,7 +41,7 @@ class Group extends Subfield
      * @param string $name the module field's handle
      * @param \craft\base\ElementInterface $element the element the module field is associated with, if there is one
      * @param string $namespacedId the module field's input ID
-     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     * @param \stdClass|null $value the module field's value, you can access the subfield's value by calling
      *     `$value->{$this->key}`
      */
     public function init(string $name, ElementInterface $element, string $namespacedId, \stdClass $value = null)
@@ -58,7 +58,7 @@ class Group extends Subfield
      * @param string $name the module field's handle
      * @param \craft\base\ElementInterface $element the element the module field is associated with, if there is one
      * @param string $namespacedId the module field's input ID
-     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     * @param \stdClass|null $value the module field's value, you can access the subfield's value by calling
      *     `$value->{$this->key}`
      */
     protected function initSubfields(string $name, ElementInterface $element, string $namespacedId, $value)
@@ -70,11 +70,11 @@ class Group extends Subfield
     }
 
     /**
-     * Configures the sub-field with given default config and the module field's value. Returns the resulting config
+     * Configures the subfield with given default config and the module field's value. Returns the resulting config
      * array.
      *
      * @param array $config the config object to be passed to the Twig macro for rendering this field
-     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     * @param \stdClass|null $value the module field's value, you can access the subfield's value by calling
      *     `$value->{$this->key}`
      *
      * @return array
@@ -97,7 +97,7 @@ class Group extends Subfield
     }
 
     /**
-     * Returns an array representation of this sub-field.
+     * Returns an array representation of this subfield.
      *
      * @return array
      */

@@ -28,11 +28,11 @@ class Textarea extends Subfield
     }
 
     /**
-     * Configures the sub-field with given default config and the module field's value. Returns the resulting config
+     * Configures the subfield with given default config and the module field's value. Returns the resulting config
      * array.
      *
      * @param array $config the config object to be passed to the Twig macro for rendering this field
-     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     * @param \stdClass|null $value the module field's value, you can access the subfield's value by calling
      *     `$value->{$this->key}`
      *
      * @return array

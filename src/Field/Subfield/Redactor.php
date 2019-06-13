@@ -56,7 +56,7 @@ class Redactor extends Subfield
      * @param string $name the module field's handle
      * @param \craft\base\ElementInterface $element the element the module field is associated with, if there is one
      * @param string $namespacedId the module field's input ID
-     * @param \stdClass|null $value the module field's value, you can access the sub-field's value by calling
+     * @param \stdClass|null $value the module field's value, you can access the subfield's value by calling
      *     `$value->{$this->key}`
      */
     public function init(string $name, ElementInterface $element, string $namespacedId, \stdClass $value = null)

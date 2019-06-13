@@ -15,7 +15,7 @@
         }
     } only %}
 
-    {# all sub-fields as defined in the module field implementation #}
+    {# all subfields as defined in the module field implementation #}
     {# --> we can't just dynamically call macros in Twig #}
     {# --> that's why we dynamically include other templates here (where the macros will be called) #}
     {# --> see https://stackoverflow.com/a/55970814/3773017 for more details #}
@@ -36,7 +36,7 @@
             id: name,
             name: name,
             value: value,
-            instructions: 'Something went wrong on rendering one of this module\'s sub-fields. Chances are good that someone (you eventually?) inserted some invalid data into the fields. &rarr; Please check the following JSON string and its entries for something like malformed field values (e.g. look for date strings that might not properly create `DateTime` objects and such things). Go and fix \'em.'
+            instructions: 'Something went wrong on rendering one of this module\'s subfields. Chances are good that someone (you eventually?) inserted some invalid data into the fields. &rarr; Please check the following JSON string and its entries for something like malformed field values (e.g. look for date strings that might not properly create `DateTime` objects and such things). Go and fix \'em.'
         }
     } only %}
 
