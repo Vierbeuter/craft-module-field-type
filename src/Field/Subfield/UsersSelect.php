@@ -56,28 +56,6 @@ class UsersSelect extends ElementSelect
     }
 
     /**
-     * Returns the actual subfield data for given value.
-     *
-     * @param mixed $value
-     *
-     * @return mixed
-     */
-    public function getData($value)
-    {
-        if (is_array($value)) {
-            return array_map(function ($userId) {
-                return \Craft::$app->users->getUserById($userId);
-            }, $value);
-        }
-
-        if (is_numeric($value)) {
-            return \Craft::$app->users->getUserById($value);
-        }
-
-        return parent::getData($value);
-    }
-
-    /**
      * Returns the element for given ID.
      *
      * @param int $id
