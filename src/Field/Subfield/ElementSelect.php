@@ -71,6 +71,34 @@ abstract class ElementSelect extends Subfield
     }
 
     /**
+     * Serializes the given subfield value before being stored.
+     *
+     * It's gonna be called in the "outer" field's `serializeValue()` method.
+     *
+     * @param $value
+     * @param \craft\base\ElementInterface|null $element
+     *
+     * @return string|mixed
+     *
+     * @see \Vierbeuter\Craft\Field\ModuleField::serializeValue()
+     * @see \craft\base\FieldInterface::serializeValue()
+     */
+    public function serializeValue($value, ElementInterface $element = null)
+    {
+        if (is_array($value)) {
+            return array_map(function ($singleValue) {
+                return $this->serializeValue($singleValue);
+            }, $value);
+        }
+
+        if ($value instanceof Element) {
+            return $value->id;
+        }
+
+        return parent::serializeValue($value, $element);
+    }
+
+    /**
      * Returns the actual subfield data for given value.
      *
      * @param mixed $value
