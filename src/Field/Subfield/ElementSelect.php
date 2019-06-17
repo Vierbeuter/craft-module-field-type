@@ -47,7 +47,16 @@ abstract class ElementSelect extends Subfield
     public function configure(array $config, \stdClass $value = null): array
     {
         $config['elementType'] = $this->elementType;
-        $config['value'] = !empty($value->{$this->key}) ? $value->{$this->key} : null;
+
+        if (isset($value->{$this->key})) {
+            $subvalue = $value->{$this->key};
+
+            if (!empty($subvalue) && $subvalue instanceof Element) {
+                $subvalue = $subvalue->id;
+            }
+
+            $config['value'] = !empty($subvalue) ? $subvalue : null;
+        }
 
         return $config;
     }

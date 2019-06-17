@@ -368,7 +368,7 @@ abstract class ModuleField extends Field
 
         $templateParams = [
             'name' => $this->handle,
-            'value' => empty($value) ? '{}' : Json::encode($value),
+            'value' => empty($value) ? '{}' : $this->serializeValue($value),
             'field' => $this,
             'id' => $id,
             'namespacedId' => $namespacedId,
