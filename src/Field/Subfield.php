@@ -31,6 +31,7 @@ class Subfield
     const TYPE_PASSWORD = 'passwordField';
     const TYPE_RADIOGROUP = 'radioGroupField';
     const TYPE_REDACTOR = 'redactorField';
+    const TYPE_REPEATABLE = 'repeatableField';
     const TYPE_SELECT = 'selectField';
     const TYPE_TEXT = 'textField';
     const TYPE_TEXTAREA = 'textareaField';
