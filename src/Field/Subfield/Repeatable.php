@@ -36,4 +36,3 @@ class Repeatable extends Group
         parent::__construct($key, $groups, Subfield::TYPE_REPEATABLE, $rules);
     }
 }
-+
